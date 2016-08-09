@@ -12,12 +12,14 @@ class TableHelper: NSObject, NSTableViewDataSource, NSTableViewDelegate {
     
     @IBOutlet weak var imgView: NSImageView!
     
-    let numbers:[AnyObject] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]
+    var numbers: [String] = []
     var images:[NSImage] = []
     
     func getImages() {
+        images = []
         for i in 50...66 {
             images.append(NSImage(named: "IMG_67\(i)")!)
+            numbers.append(String(i-49))
         }
     }
 
@@ -28,17 +30,51 @@ class TableHelper: NSObject, NSTableViewDataSource, NSTableViewDelegate {
     }
     
     func tableView(tableView: NSTableView, objectValueForTableColumn tableColumn: NSTableColumn?, row: Int) -> AnyObject? {
-        tableView.cell?.title = String(row)
         
-        if row == numbers.count - 1 {
-            getImages()
-        }
-        
+        tableView.cell?.title = String(numbers[row])
         return numbers[row]
     }
     
     func numberOfRowsInTableView(tableView: NSTableView) -> Int {
-        return numbers.count
+        
+        getImages()
+        tableView.registerForDraggedTypes([NSGeneralPboard])
+        
+        return images.count
+    }
+    
+    func tableView(tableView: NSTableView, writeRowsWithIndexes rowIndexes: NSIndexSet, toPasteboard pboard: NSPasteboard) -> Bool {
+        
+        let data:NSData = NSKeyedArchiver.archivedDataWithRootObject(rowIndexes)
+        let registeredTypes:[String] = [NSGeneralPboard]
+        pboard.declareTypes(registeredTypes, owner: self)
+        pboard.setData(data, forType: NSGeneralPboard)
+        
+        return true
+    }
+    
+    func tableView(tableView: NSTableView, validateDrop info: NSDraggingInfo, proposedRow row: Int, proposedDropOperation dropOperation: NSTableViewDropOperation) -> NSDragOperation {
+        
+        if dropOperation == .Above {
+            return .Move
+        }
+        return .None
+    }
+    
+    func tableView(tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableViewDropOperation) -> Bool {
+        
+        let data: NSData = info.draggingPasteboard().dataForType(NSGeneralPboard)!
+        let rowIndexes: NSIndexSet = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! NSIndexSet
+        let value: NSImage = images[rowIndexes.firstIndex]
+        images.removeAtIndex(rowIndexes.firstIndex)
+        if (row > images.count)
+        {
+            images.insert(value, atIndex: row - 1)
+        } else {
+            images.insert(value, atIndex: row)
+        }
+        tableView.reloadData()
+        return true
     }
     
 }

@@ -490,8 +490,8 @@
                                                 </tableColumn>
                                             </tableColumns>
                                             <connections>
-                                                <outlet property="dataSource" destination="fQ5-V6-ZIc" id="DgN-gf-05e"/>
-                                                <outlet property="delegate" destination="fQ5-V6-ZIc" id="n60-iS-CWv"/>
+                                                <outlet property="dataSource" destination="syt-o4-abf" id="wXn-oP-7i1"/>
+                                                <outlet property="delegate" destination="syt-o4-abf" id="rzf-Zp-GX3"/>
                                             </connections>
                                         </tableView>
                                     </subviews>
