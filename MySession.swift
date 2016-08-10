@@ -19,6 +19,10 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //Set Up Design
+        self.view.wantsLayer = true
+        self.view.layer?.backgroundColor = NSColor.whiteColor().CGColor
+        
         getImages()
         tableView.registerForDraggedTypes([NSGeneralPboard])
     }

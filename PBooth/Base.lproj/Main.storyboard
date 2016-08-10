@@ -3,6 +3,8 @@
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--Application-->
@@ -403,7 +405,7 @@
                 <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="PBooth" customModuleProvider="target"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="0.0"/>
+            <point key="canvasLocation" x="74.5" y="-386"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
@@ -416,17 +418,17 @@
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
                     </window>
                     <connections>
-                        <segue destination="J9E-f6-snV" kind="relationship" relationship="window.shadowedContentViewController" id="rZu-1n-g62"/>
+                        <segue destination="52H-1e-Oxe" kind="relationship" relationship="window.shadowedContentViewController" id="zEQ-5c-kfH"/>
                     </connections>
                 </windowController>
                 <customObject id="6f7-a7-6o1" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="250"/>
+            <point key="canvasLocation" x="75" y="-136"/>
         </scene>
-        <!--Tab View Controller-->
+        <!--Tab View-->
         <scene sceneID="wEd-ZN-G6W">
             <objects>
-                <tabViewController selectedTabViewItemIndex="0" id="J9E-f6-snV" sceneMemberID="viewController">
+                <tabViewController selectedTabViewItemIndex="0" tabStyle="toolbar" id="J9E-f6-snV" customClass="TabView" customModule="PBooth" customModuleProvider="target" sceneMemberID="viewController">
                     <tabViewItems>
                         <tabViewItem identifier="" id="LcA-Va-FNX"/>
                         <tabViewItem identifier="" id="FyF-Me-cfC"/>
@@ -446,7 +448,153 @@
                 </tabViewController>
                 <customObject id="nix-nd-mg2" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="690"/>
+            <point key="canvasLocation" x="75" y="724"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="R15-IS-k89">
+            <objects>
+                <viewController id="52H-1e-Oxe" customClass="ViewController" customModule="PBooth" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="rZG-Cl-5zh">
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="330"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="6bF-lL-Qqx">
+                                <rect key="frame" x="0.0" y="264" width="480" height="66"/>
+                                <subviews>
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fm9-m0-Y3U">
+                                        <rect key="frame" x="18" y="17" width="444" height="32"/>
+                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Welcome Jason!" id="7CG-dH-k6c">
+                                            <font key="font" size="26" name="HelveticaNeue-Light"/>
+                                            <color key="textColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="fm9-m0-Y3U" firstAttribute="centerY" secondItem="6bF-lL-Qqx" secondAttribute="centerY" id="5AR-0w-8Ik"/>
+                                    <constraint firstAttribute="bottom" secondItem="fm9-m0-Y3U" secondAttribute="bottom" constant="17" id="FVM-7e-L3f"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="66" id="OXx-Uq-XYA"/>
+                                    <constraint firstItem="fm9-m0-Y3U" firstAttribute="top" secondItem="6bF-lL-Qqx" secondAttribute="top" constant="17" id="T1X-fJ-Air"/>
+                                    <constraint firstItem="fm9-m0-Y3U" firstAttribute="leading" secondItem="6bF-lL-Qqx" secondAttribute="leading" constant="20" id="bwT-oA-caR"/>
+                                    <constraint firstAttribute="trailing" secondItem="fm9-m0-Y3U" secondAttribute="trailing" constant="20" id="yvH-HB-Gap"/>
+                                </constraints>
+                            </customView>
+                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="1qD-mo-UbR">
+                                <rect key="frame" x="18" y="212" width="444" height="44"/>
+                                <textFieldCell key="cell" controlSize="mini" sendsActionOnEndEditing="YES" alignment="center" title="Take pictures from the camera or click the shutter button to start" id="OR9-Nk-bc1">
+                                    <font key="font" size="18" name="HelveticaNeue-Light"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="PL1-gW-vrd">
+                                <rect key="frame" x="219" y="8" width="255" height="22"/>
+                                <textFieldCell key="cell" controlSize="mini" sendsActionOnEndEditing="YES" alignment="center" title="There are 0 cameras connected" id="68r-Ek-ALk">
+                                    <font key="font" size="18" name="HelveticaNeue-Light"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button translatesAutoresizingMaskIntoConstraints="NO" id="XPA-Wq-osn">
+                                <rect key="frame" x="205" y="95" width="70" height="70"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="70" id="3XC-Ya-HlM"/>
+                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="70" id="bYx-WT-28a"/>
+                                    <constraint firstAttribute="width" secondItem="XPA-Wq-osn" secondAttribute="height" multiplier="1:1" id="yAy-uV-uJZ"/>
+                                </constraints>
+                                <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="aperture" imagePosition="only" alignment="center" controlSize="mini" imageScaling="proportionallyUpOrDown" inset="2" id="jO9-iX-2yQ">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="miniSystem"/>
+                                </buttonCell>
+                                <connections>
+                                    <segue destination="J9E-f6-snV" kind="custom" customClass="ReplaceSegue" customModule="PBooth" customModuleProvider="target" id="DKp-Nc-dN6"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yfm-5z-EjC">
+                                <rect key="frame" x="311" y="122" width="46" height="16"/>
+                                <buttonCell key="cell" type="push" title="Start" bezelStyle="rounded" alignment="center" controlSize="mini" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ozC-0x-DGU">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="miniSystem"/>
+                                </buttonCell>
+                                <connections>
+                                    <segue destination="1Ue-CZ-UXT" kind="modal" id="9Eb-nA-VQc"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="yfm-5z-EjC" secondAttribute="trailing" constant="8" id="0d0-qF-4gD"/>
+                            <constraint firstItem="6bF-lL-Qqx" firstAttribute="top" secondItem="rZG-Cl-5zh" secondAttribute="top" id="16X-Tx-iYU"/>
+                            <constraint firstItem="XPA-Wq-osn" firstAttribute="top" relation="greaterThanOrEqual" secondItem="1qD-mo-UbR" secondAttribute="bottom" constant="8" id="35L-zV-2bu"/>
+                            <constraint firstItem="1qD-mo-UbR" firstAttribute="leading" secondItem="rZG-Cl-5zh" secondAttribute="leading" constant="20" id="9R8-lr-lNY"/>
+                            <constraint firstAttribute="bottom" secondItem="PL1-gW-vrd" secondAttribute="bottom" constant="8" id="CPZ-OM-V5t"/>
+                            <constraint firstItem="1qD-mo-UbR" firstAttribute="top" secondItem="6bF-lL-Qqx" secondAttribute="bottom" constant="8" id="Drd-7r-hrd"/>
+                            <constraint firstItem="yfm-5z-EjC" firstAttribute="leading" secondItem="XPA-Wq-osn" secondAttribute="trailing" constant="37" id="E0Z-Ze-FHf"/>
+                            <constraint firstItem="XPA-Wq-osn" firstAttribute="centerX" secondItem="rZG-Cl-5zh" secondAttribute="centerX" id="G7i-pI-pZx"/>
+                            <constraint firstItem="yfm-5z-EjC" firstAttribute="centerY" secondItem="XPA-Wq-osn" secondAttribute="centerY" id="Gmb-pY-JfC"/>
+                            <constraint firstItem="PL1-gW-vrd" firstAttribute="top" relation="greaterThanOrEqual" secondItem="XPA-Wq-osn" secondAttribute="bottom" constant="8" id="KfW-rT-E96"/>
+                            <constraint firstItem="6bF-lL-Qqx" firstAttribute="leading" secondItem="rZG-Cl-5zh" secondAttribute="leading" id="Lnp-GP-Raq"/>
+                            <constraint firstAttribute="trailing" secondItem="PL1-gW-vrd" secondAttribute="trailing" constant="8" id="OYJ-cp-qgi"/>
+                            <constraint firstAttribute="trailing" secondItem="6bF-lL-Qqx" secondAttribute="trailing" id="R6k-f0-KGk"/>
+                            <constraint firstItem="6bF-lL-Qqx" firstAttribute="height" secondItem="rZG-Cl-5zh" secondAttribute="height" multiplier="0.2" priority="999" id="YwJ-gY-I52"/>
+                            <constraint firstItem="XPA-Wq-osn" firstAttribute="centerY" secondItem="rZG-Cl-5zh" secondAttribute="centerY" constant="35" id="bH2-Fk-FAS"/>
+                            <constraint firstAttribute="trailing" secondItem="1qD-mo-UbR" secondAttribute="trailing" constant="20" id="m88-Kh-fZP"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="cameraNumLbl" destination="PL1-gW-vrd" id="ufA-88-4e4"/>
+                        <outlet property="navView" destination="6bF-lL-Qqx" id="eVe-e9-R1O"/>
+                    </connections>
+                </viewController>
+                <customObject id="7T0-3K-6ds" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="75" y="283"/>
+        </scene>
+        <!--Downloader-->
+        <scene sceneID="MyJ-gJ-C9W">
+            <objects>
+                <viewController id="1Ue-CZ-UXT" customClass="Downloader" customModule="PBooth" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="WnI-FY-pJb">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <progressIndicator wantsLayer="YES" maxValue="100" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="hns-Kz-faj">
+                                <rect key="frame" x="20" y="140" width="410" height="20"/>
+                            </progressIndicator>
+                            <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="gKz-nq-7QH">
+                                <rect key="frame" x="217" y="167" width="16" height="16"/>
+                            </progressIndicator>
+                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="toR-gv-2vw">
+                                <rect key="frame" x="18" y="116" width="414" height="17"/>
+                                <textFieldCell key="cell" controlSize="mini" sendsActionOnEndEditing="YES" alignment="center" title="Downloading Photographs" id="7xF-8f-HQ9">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="toR-gv-2vw" firstAttribute="leading" secondItem="WnI-FY-pJb" secondAttribute="leading" constant="20" id="2rV-NV-aSc"/>
+                            <constraint firstItem="hns-Kz-faj" firstAttribute="leading" secondItem="WnI-FY-pJb" secondAttribute="leading" constant="20" id="Coj-ph-gZP"/>
+                            <constraint firstItem="toR-gv-2vw" firstAttribute="top" secondItem="hns-Kz-faj" secondAttribute="bottom" constant="8" id="JLo-Gh-T6v"/>
+                            <constraint firstItem="gKz-nq-7QH" firstAttribute="centerX" secondItem="hns-Kz-faj" secondAttribute="centerX" id="ODg-0F-jlS"/>
+                            <constraint firstItem="hns-Kz-faj" firstAttribute="centerY" secondItem="WnI-FY-pJb" secondAttribute="centerY" id="OIE-Wj-r7m"/>
+                            <constraint firstItem="toR-gv-2vw" firstAttribute="centerX" secondItem="hns-Kz-faj" secondAttribute="centerX" id="SjF-me-aYf"/>
+                            <constraint firstAttribute="trailing" secondItem="toR-gv-2vw" secondAttribute="trailing" constant="20" id="Skt-dF-rON"/>
+                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="toR-gv-2vw" secondAttribute="bottom" constant="8" id="bsk-81-GnX"/>
+                            <constraint firstItem="gKz-nq-7QH" firstAttribute="top" relation="greaterThanOrEqual" secondItem="WnI-FY-pJb" secondAttribute="top" constant="8" id="jdQ-HA-GN9"/>
+                            <constraint firstAttribute="trailing" secondItem="hns-Kz-faj" secondAttribute="trailing" constant="20" id="uP0-VT-N4e"/>
+                            <constraint firstItem="hns-Kz-faj" firstAttribute="top" secondItem="gKz-nq-7QH" secondAttribute="bottom" constant="8" id="z9Q-1o-Xai"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="progBar" destination="hns-Kz-faj" id="TvT-SQ-moj"/>
+                        <outlet property="progLbl" destination="toR-gv-2vw" id="fM7-0y-XkT"/>
+                        <segue destination="J9E-f6-snV" kind="custom" identifier="toTab" customClass="ReplaceSegue" customModule="PBooth" customModuleProvider="target" id="XLj-Je-gQS"/>
+                    </connections>
+                </viewController>
+                <customObject id="0vz-7A-jwg" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-417" y="283"/>
         </scene>
         <!--My Session-->
         <scene sceneID="Ita-Dh-2cd">
@@ -469,13 +617,13 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" headerView="hMV-SF-gZV" id="NDM-rM-hWJ">
-                                            <rect key="frame" x="0.0" y="0.0" width="151" height="275"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="151" height="276"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                             <tableColumns>
-                                                <tableColumn width="148" minWidth="40" maxWidth="1000" id="cZE-SC-ON0">
+                                                <tableColumn width="148.30600163393666" minWidth="40" maxWidth="1000" id="cZE-SC-ON0">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Images">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -500,11 +648,11 @@
                                 <constraints>
                                     <constraint firstAttribute="width" constant="153" id="Sya-88-Z19"/>
                                 </constraints>
-                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="7Bb-WZ-FWx">
-                                    <rect key="frame" x="1" y="119" width="223" height="15"/>
+                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="7Bb-WZ-FWx">
+                                    <rect key="frame" x="1" y="284" width="151" height="15"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
-                                <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="7Vx-fo-bFJ">
+                                <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="0.055343245779175258" horizontal="NO" id="7Vx-fo-bFJ">
                                     <rect key="frame" x="224" y="17" width="15" height="102"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
@@ -538,7 +686,7 @@
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="740" y="435"/>
+            <point key="canvasLocation" x="739.5" y="444"/>
         </scene>
         <!--My Cameras-->
         <scene sceneID="Mj5-9q-zWD">
@@ -556,7 +704,7 @@
         <!--My Profiles-->
         <scene sceneID="Ra9-FA-c0S">
             <objects>
-                <viewController title="My Profiles" id="2bA-Qj-AtX" customClass="ViewController" customModule="PBooth" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="My Profiles" id="2bA-Qj-AtX" sceneMemberID="viewController">
                     <view key="view" id="6g8-EC-wJi">
                         <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -567,4 +715,10 @@
             <point key="canvasLocation" x="740" y="796"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="aperture" width="67" height="66.720001220703125"/>
+    </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="XLj-Je-gQS"/>
+    </inferredMetricsTieBreakers>
 </document>

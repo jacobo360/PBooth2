@@ -8,19 +8,43 @@
 
 import Cocoa
 
+let TEAL = NSColor(SRGBRed: 0.00, green:0.59, blue:0.53, alpha:1.0)
+let PINK = NSColor(SRGBRed: 1.00, green:0.25, blue:0.51, alpha:1.0)
+
 class ViewController: NSViewController, EOSDownloadDelegate {
+    
+    var camArray: [EOSCamera] = []
+    
+    @IBOutlet weak var navView: NSView!
+    @IBOutlet weak var cameraNumLbl: NSTextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        _ = NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(1), target: self, selector: #selector(ViewController.checkCam), userInfo: nil, repeats: false)
+        //Set up design
+        navView.wantsLayer = true
+        navView.layer?.backgroundColor = TEAL.CGColor
+        self.view.wantsLayer = true
+        self.view.layer?.backgroundColor = NSColor.whiteColor().CGColor
         
+        //Get Cameras
+        camArray = cameraFunctionality().getCamsWithOpenSession()
+        cameraNumLbl.stringValue = "There are \(camArray.count) cameras connected"
     }
     
     override var representedObject: AnyObject? {
         didSet {
             // Update the view, if already loaded.
         }
+    }
+    
+    override func prepareForSegue(segue: NSStoryboardSegue, sender: AnyObject?) {
+        
+        if segue.identifier == "downloader" {
+            let downloaderVC = segue.destinationController as! Downloader
+            downloaderVC.cameras = camArray
+        }
+        
     }
     
     func checkCam() {
