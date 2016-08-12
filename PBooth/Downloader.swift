@@ -64,6 +64,7 @@ class Downloader: NSViewController, EOSDownloadDelegate, EOSReadDataDelegate {
                 if progress == 1 {progBar.startAnimation(self)}
                 progLbl.stringValue = "Downloading Photography: \(String(progress+1))/\(String(cameras.count))"
             } else {
+                //Set up order and profile before segue
                 self.performSegueWithIdentifier("toTab", sender: self)
             }
         }

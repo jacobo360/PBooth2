@@ -11,7 +11,7 @@ import Cocoa
 class cameraFunctionality {
     
     //Get Cameras and Open its Session
-    func getCamsWithOpenSession() -> [EOSCamera] {
+    func getCamsWithOpenSession(vc: ViewController) -> [EOSCamera] {
         print("getting cams")
         var cameras: [EOSCamera] = []
         let cameraList = EOSManager.sharedManager().getCameras()
@@ -24,6 +24,7 @@ class cameraFunctionality {
                 //openSession might be instance dependant (cant be called from another class)
                 try cam.openSession()
                 cameras.append(cam)
+                vc.cameraNumLbl.stringValue = "There are \(cameras.count) cameras connected"
             } catch {
                 generalAlert("Could not open session on camera \(camera.index)", text: "Please restart the program to load cameras again")
             }

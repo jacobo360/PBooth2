@@ -9,7 +9,7 @@
 import Cocoa
 
 @NSApplicationMain
-class AppDelegate: NSObject, NSApplicationDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
 
     let manager: EOSManager = EOSManager.sharedManager()
 
@@ -36,7 +36,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             
         }
     }
-
 
 }
 

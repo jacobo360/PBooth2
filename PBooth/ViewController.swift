@@ -11,12 +11,13 @@ import Cocoa
 let TEAL = NSColor(SRGBRed: 0.00, green:0.59, blue:0.53, alpha:1.0)
 let PINK = NSColor(SRGBRed: 1.00, green:0.25, blue:0.51, alpha:1.0)
 
-class ViewController: NSViewController, EOSDownloadDelegate {
+class ViewController: NSViewController, EOSReadDataDelegate {
     
     var camArray: [EOSCamera] = []
     
     @IBOutlet weak var navView: NSView!
     @IBOutlet weak var cameraNumLbl: NSTextField!
+    @IBOutlet weak var shutterBtn: NSButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,8 +29,12 @@ class ViewController: NSViewController, EOSDownloadDelegate {
         self.view.layer?.backgroundColor = NSColor.whiteColor().CGColor
         
         //Get Cameras
-        camArray = cameraFunctionality().getCamsWithOpenSession()
-        cameraNumLbl.stringValue = "There are \(camArray.count) cameras connected"
+        _ = NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(1), target: self, selector: #selector(ViewController.go), userInfo: nil, repeats: false)
+    }
+    
+    func go() {
+        //Get Cameras
+        camArray = cameraFunctionality().getCamsWithOpenSession(self)
     }
     
     override var representedObject: AnyObject? {
@@ -43,6 +48,11 @@ class ViewController: NSViewController, EOSDownloadDelegate {
         if segue.identifier == "downloader" {
             let downloaderVC = segue.destinationController as! Downloader
             downloaderVC.cameras = camArray
+        } else if segue.identifier == "toTab" {
+            let configVC = segue.destinationController as! TabView
+            //configVC.removeTabViewItem(configVC.tabViewItems[0])
+            configVC.configMode = true
+            configVC.selectedTabViewItemIndex = 2
         }
         
     }
@@ -71,9 +81,9 @@ class ViewController: NSViewController, EOSDownloadDelegate {
                         for n in num2 {
                             try print(n.info().name)
                             let num3 = n.files() as! [EOSFile]
-                            let directory = NSURL(fileURLWithPath: "/Users/jacobokoenig/Desktop/ThePicture/")
-                            let options = try [EOSDownloadDirectoryURLKey : directory, EOSSaveAsFilenameKey : num3[num3.count - 19].info().name, EOSOverwriteKey : false]
-                            num3[num3.count - 19].downloadWithOptions(options, delegate: self, contextInfo: nil)
+                            //let directory = NSURL(fileURLWithPath: "/Users/jacobokoenig/Desktop/ThePicture/")
+                            //let options = try [EOSDownloadDirectoryURLKey : directory, EOSSaveAsFilenameKey : num3[num3.count - 19].info().name, EOSOverwriteKey : false]
+                            num3[num3.count - 4].readDataWithDelegate(self, contextInfo: nil)
                     }
                 }
                 
@@ -83,12 +93,11 @@ class ViewController: NSViewController, EOSDownloadDelegate {
         }
     }
     
-    func didDownloadFile(file: EOSFile!, withOptions options: [NSObject : AnyObject]!, contextInfo: AnyObject!, error: NSError!) {
-        do {
-            try print("printed")
-        } catch {
-            
-        }
+    func didReadData(data: NSData!, forFile file: EOSFile!, contextInfo: AnyObject!, error: NSError!) {
+        //Check if data is an NSImage
+        print("didReadData")
+        shutterBtn.image = NSImage(data: data)
     }
+    
 }
 
