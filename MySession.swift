@@ -25,6 +25,9 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         
         getImages()
         tableView.registerForDraggedTypes([NSGeneralPboard])
+        
+        let gif = GIFMaker().createGIF(with: images, frameDelay: 0.2)
+        //GIFMaker().saveGIF(gif)
     }
     
     func getImages() {
