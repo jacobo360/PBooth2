@@ -43,15 +43,15 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         imgView.image = images[selection!]
     }
     
+    func numberOfRowsInTableView(tableView: NSTableView) -> Int {
+        
+        return images.count
+    }
+    
     func tableView(tableView: NSTableView, objectValueForTableColumn tableColumn: NSTableColumn?, row: Int) -> AnyObject? {
         
         tableView.cell?.title = String(numbers[row])
         return numbers[row]
-    }
-    
-    func numberOfRowsInTableView(tableView: NSTableView) -> Int {
-        
-        return images.count
     }
     
     func tableView(tableView: NSTableView, writeRowsWithIndexes rowIndexes: NSIndexSet, toPasteboard pboard: NSPasteboard) -> Bool {
@@ -78,17 +78,6 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         let rowIndexes: NSIndexSet = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! NSIndexSet
         let value: NSImage = images[rowIndexes.firstIndex]
         let sValue: String = numbers[rowIndexes.firstIndex]
-
-        //        numbers.removeAtIndex(rowIndexes.firstIndex)
-        //        images.removeAtIndex(rowIndexes.firstIndex)
-        //        if (row > images.count)
-        //        {
-        //            numbers.insert(sValue, atIndex: row - 1)
-        //            images.insert(value, atIndex: row - 1)
-        //        } else {
-        //            numbers.insert(sValue, atIndex: row)
-        //            images.insert(value, atIndex: row)
-        //        }
         
         if rowIndexes.firstIndex < row {
             numbers.insert(sValue, atIndex: row)

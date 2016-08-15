@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7E0EE7E61D625AAF003FC151 /* SessionProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0EE7E51D625AAF003FC151 /* SessionProfile.swift */; };
+		7E0EE7EC1D625BB4003FC151 /* MyProfiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0EE7EB1D625BB4003FC151 /* MyProfiles.swift */; };
 		7E4C2DF01D5A7BDA002CE808 /* ReplaceSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E4C2DEF1D5A7BDA002CE808 /* ReplaceSegue.swift */; };
 		7E4C2DF21D5A7D61002CE808 /* TabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E4C2DF11D5A7D61002CE808 /* TabView.swift */; };
 		7E4C2DF41D5AC36A002CE808 /* Downloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E4C2DF31D5AC36A002CE808 /* Downloader.swift */; };
@@ -59,6 +61,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		7E0EE7E51D625AAF003FC151 /* SessionProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionProfile.swift; sourceTree = "<group>"; };
+		7E0EE7EB1D625BB4003FC151 /* MyProfiles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MyProfiles.swift; path = ../MyProfiles.swift; sourceTree = "<group>"; };
 		7E4C2DEF1D5A7BDA002CE808 /* ReplaceSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReplaceSegue.swift; sourceTree = "<group>"; };
 		7E4C2DF11D5A7D61002CE808 /* TabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabView.swift; sourceTree = "<group>"; };
 		7E4C2DF31D5AC36A002CE808 /* Downloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Downloader.swift; sourceTree = "<group>"; };
@@ -146,10 +150,11 @@
 			isa = PBXGroup;
 			children = (
 				7ECA32A81D54DEC800449835 /* AppDelegate.swift */,
+				7E0EE7E51D625AAF003FC151 /* SessionProfile.swift */,
+				7ECA32AC1D54DEC800449835 /* Document.swift */,
 				7ECA32EF1D5A72FB00449835 /* View Controllers */,
 				7E4C2DF51D5B78D0002CE808 /* Assisting Classes */,
 				7ECA32B31D54DEC800449835 /* Info.plist */,
-				7ECA32AC1D54DEC800449835 /* Document.swift */,
 				7ECA32AE1D54DEC800449835 /* Assets.xcassets */,
 				7ECA32B01D54DEC800449835 /* Main.storyboard */,
 				7ECA32D71D54DF1300449835 /* PBooth-Bridging-Header.h */,
@@ -181,9 +186,10 @@
 			isa = PBXGroup;
 			children = (
 				7ECA32AA1D54DEC800449835 /* ViewController.swift */,
-				7ECA32DF1D5802A900449835 /* MySession.swift */,
-				7E4C2DF11D5A7D61002CE808 /* TabView.swift */,
 				7E4C2DF31D5AC36A002CE808 /* Downloader.swift */,
+				7E4C2DF11D5A7D61002CE808 /* TabView.swift */,
+				7ECA32DF1D5802A900449835 /* MySession.swift */,
+				7E0EE7EB1D625BB4003FC151 /* MyProfiles.swift */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -320,6 +326,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7ECA32E01D5802A900449835 /* MySession.swift in Sources */,
+				7E0EE7EC1D625BB4003FC151 /* MyProfiles.swift in Sources */,
 				7ECA32EC1D58D6AD00449835 /* TableHelper.swift in Sources */,
 				7E4C2DF21D5A7D61002CE808 /* TabView.swift in Sources */,
 				7ECA32EE1D5A72E200449835 /* CameraFunctionality.swift in Sources */,
@@ -327,6 +334,7 @@
 				7E4C2DF41D5AC36A002CE808 /* Downloader.swift in Sources */,
 				7ECA32AB1D54DEC800449835 /* ViewController.swift in Sources */,
 				7E4C2DF91D5E878D002CE808 /* GIFMaker.swift in Sources */,
+				7E0EE7E61D625AAF003FC151 /* SessionProfile.swift in Sources */,
 				7ECA32A91D54DEC800449835 /* AppDelegate.swift in Sources */,
 				7ECA32AD1D54DEC800449835 /* Document.swift in Sources */,
 			);
