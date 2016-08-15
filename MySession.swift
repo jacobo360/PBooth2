@@ -78,17 +78,30 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         let rowIndexes: NSIndexSet = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! NSIndexSet
         let value: NSImage = images[rowIndexes.firstIndex]
         let sValue: String = numbers[rowIndexes.firstIndex]
+
+        //        numbers.removeAtIndex(rowIndexes.firstIndex)
+        //        images.removeAtIndex(rowIndexes.firstIndex)
+        //        if (row > images.count)
+        //        {
+        //            numbers.insert(sValue, atIndex: row - 1)
+        //            images.insert(value, atIndex: row - 1)
+        //        } else {
+        //            numbers.insert(sValue, atIndex: row)
+        //            images.insert(value, atIndex: row)
+        //        }
         
-        numbers.removeAtIndex(rowIndexes.firstIndex)
-        images.removeAtIndex(rowIndexes.firstIndex)
-        if (row > images.count)
-        {
-            numbers.insert(sValue, atIndex: row - 1)
-            images.insert(value, atIndex: row - 1)
-        } else {
+        if rowIndexes.firstIndex < row {
+            numbers.insert(sValue, atIndex: row)
+            images.insert(value, atIndex: row)
+            numbers.removeAtIndex(rowIndexes.firstIndex)
+            images.removeAtIndex(rowIndexes.firstIndex)
+        } else if rowIndexes.firstIndex > row {
+            numbers.removeAtIndex(rowIndexes.firstIndex)
+            images.removeAtIndex(rowIndexes.firstIndex)
             numbers.insert(sValue, atIndex: row)
             images.insert(value, atIndex: row)
         }
+        
         tableView.reloadData()
         return true
     }
