@@ -39,16 +39,16 @@ class MyProfiles: NSViewController, NSTableViewDelegate, NSTableViewDataSource, 
     
     func tableViewSelectionDidChange(notification: NSNotification) {
         let table = notification.object
-        shortMemoryName = table?.selection as! String
-        print(shortMemoryName)
+//        shortMemoryName = table?.selection as! String
+//        print(shortMemoryName)
         setUpProfileMaker()
     }
     
     func numberOfRowsInTableView(tableView: NSTableView) -> Int {
         if tableView == myProfilesTbl {
-            if let data = defaults.objectForKey("profiles") {
-                let profiles = NSKeyedUnarchiver.unarchiveObjectWithData(data as! NSData) as? [SessionProfile]
-                return profiles!.count
+            if let data = defaults.objectForKey("profiles") as? NSData {
+                let profiles = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! [SessionProfile]
+                return profiles.count
             }
             return 0
         } else if tableView == profileTbl {
@@ -140,47 +140,34 @@ class MyProfiles: NSViewController, NSTableViewDelegate, NSTableViewDataSource, 
     @IBAction func SaveProfile(sender: AnyObject) {
         let result: String = setNameModal("Save your Profile", question: "Please input your profile's name", defaultValue: shortMemoryName)
         if result != "" {
-            let newProfile = SessionProfile()
-            newProfile.name = result
-            newProfile.cameraCount = shortMemoryOrder.count
-            newProfile.cameraOrder = shortMemoryOrder
-            if var profiles = defaults.arrayForKey("profiles") {
-                profiles.insert(profiles, atIndex: 0)
-                defaults.setObject(profiles, forKey: "profiles")
+            let newProfile = SessionProfile(name: result, cameraCount: shortMemoryOrder.count, cameraOrder: shortMemoryOrder)
+            if var data = defaults.objectForKey("profiles") {
+                var newArray = NSKeyedUnarchiver.unarchiveObjectWithData(data as! NSData) as! [SessionProfile]
+                newArray.removeAtIndex(0)
+                newArray.insert(newProfile, atIndex: 0)
+                let newData = NSKeyedArchiver.archivedDataWithRootObject(newArray)
+                defaults.setObject(newData, forKey: "profiles")
             } else {
-                defaults.setObject([newProfile], forKey: "profiles")
+                //This shouldn't happen because we created a new profile as a placeholder. If we got here, handle error.
+                print("handle error")
             }
-        }
-    }
-    
-    @IBAction func addNew(sender: AnyObject) {
-        let newProfile = SessionProfile()
-        newProfile.name = "New Profile"
-        newProfile.cameraCount = shortMemoryOrder.count
-        newProfile.cameraOrder = shortMemoryOrder
-        let data = NSKeyedArchiver.archivedDataWithRootObject(newProfile)
-        
-        if var profiles = defaults.arrayForKey("profiles") {
-            profiles.insert(data, atIndex: 0)
-            defaults.setObject(data, forKey: "profiles")
-        } else {
-            defaults.setObject([data], forKey: "profiles")
         }
         myProfilesTbl.reloadData()
     }
     
-    func setUpProfileMaker() {
-        let pMakeArray: [NSView] = [profTblView, duplicateBtn, deleteBtn, numLbl, numTextField, addProfileBtn]
-        if myProfilesTbl.selectedRow == -1 {
-            for pMake in pMakeArray {
-                pMake.hidden = true
-            }
+    @IBAction func addNew(sender: AnyObject) {
+        let newProfile = SessionProfile(name: "New Profile", cameraCount: shortMemoryOrder.count, cameraOrder: shortMemoryOrder)
+        
+        if let data = defaults.objectForKey("profiles") as? NSData {
+            var newArray = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! [SessionProfile]
+            newArray.insert(newProfile, atIndex: 0)
+            let newData = NSKeyedArchiver.archivedDataWithRootObject(newArray)
+            defaults.setObject(newData, forKey: "profiles")
         } else {
-            for pMake in pMakeArray {
-                pMake.hidden = false
-            }
-            profileTbl.reloadData()
+            let data = NSKeyedArchiver.archivedDataWithRootObject([newProfile])
+            defaults.setObject(data, forKey: "profiles")
         }
+        myProfilesTbl.reloadData()
     }
     
     func setNameModal(title: String, question: String, defaultValue: String) -> String {
@@ -246,4 +233,19 @@ class MyProfiles: NSViewController, NSTableViewDelegate, NSTableViewDataSource, 
             //Should Restart Program-Handle Error
         }
     }
+    
+    func setUpProfileMaker() {
+        let pMakeArray: [NSView] = [profTblView, duplicateBtn, deleteBtn, numLbl, numTextField, addProfileBtn]
+        if myProfilesTbl.selectedRow == -1 {
+            for pMake in pMakeArray {
+                pMake.hidden = true
+            }
+        } else {
+            for pMake in pMakeArray {
+                pMake.hidden = false
+            }
+            profileTbl.reloadData()
+        }
+    }
+    
 }

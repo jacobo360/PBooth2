@@ -902,7 +902,7 @@
                                 </connections>
                             </textField>
                             <stackView distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Y09-3a-MH8">
-                                <rect key="frame" x="210" y="8" width="194" height="50"/>
+                                <rect key="frame" x="218" y="8" width="178" height="50"/>
                                 <subviews>
                                     <stackView distribution="fill" orientation="vertical" alignment="centerX" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="w4B-RU-zM5">
                                         <rect key="frame" x="0.0" y="0.0" width="86" height="50"/>
@@ -944,11 +944,11 @@
                                         </customSpacing>
                                     </stackView>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dxr-sI-6Rd">
-                                        <rect key="frame" x="88" y="22" width="112" height="32"/>
+                                        <rect key="frame" x="88" y="22" width="96" height="32"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="V7O-P4-1wX"/>
                                         </constraints>
-                                        <buttonCell key="cell" type="push" title="Save Profile" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="2tc-dF-3uD">
+                                        <buttonCell key="cell" type="push" title="Save As.." bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="2tc-dF-3uD">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
