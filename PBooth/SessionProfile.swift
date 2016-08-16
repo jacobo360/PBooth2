@@ -10,6 +10,7 @@ import Cocoa
 
 class SessionProfile {
     
+    var name: String = ""
     var cameraCount: Int = 0
     var cameraOrder: [Int] = []
     
