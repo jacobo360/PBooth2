@@ -10,11 +10,16 @@ import Cocoa
 
 class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
 
+    let defaults = NSUserDefaults.standardUserDefaults()
+    
     @IBOutlet weak var tableView: NSTableView!
     @IBOutlet weak var imgView: NSImageView!
+    @IBOutlet weak var selectedProfile: NSTextField!
     
     var numbers: [String] = []
     var images:[NSImage] = []
+    var cameraOrder: [Int] = []
+    var cameraCount: Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,11 +27,14 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         //Set Up Design
         self.view.wantsLayer = true
         self.view.layer?.backgroundColor = NSColor.whiteColor().CGColor
-        
+
         getImages()
         tableView.registerForDraggedTypes([NSGeneralPboard])
         
         //GIFMaker().createGIF(with: images, frameDelay: 0.2)
+        
+        //Set Up Selected Profile
+        restartProfile()
     }
     
     func getImages() {
@@ -120,6 +128,48 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         }
     }
     
+    @IBAction func changeProfile(sender: AnyObject) {
+        let a = NSAlert()
+        a.messageText = "Change Default Profile"
+        a.addButtonWithTitle("Done")
+        a.addButtonWithTitle("Cancel")
+        a.alertStyle = NSAlertStyle.WarningAlertStyle
+        
+        let dDown = NSPopUpButton(frame: NSRect(x: 0, y: 0, width: 200, height: 24))
+        
+        var profileList: [SessionProfile] = []
+        
+        if let data = defaults.objectForKey("profiles") as? NSData {
+            profileList = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! [SessionProfile]
+            var nameList: [String] = []
+            for prof in profileList {
+                nameList.append(prof.name)
+            }
+            dDown.removeAllItems()
+            dDown.addItemsWithTitles(nameList)
+        } else {
+        }
+        
+        a.accessoryView = dDown
+        
+        a.beginSheetModalForWindow(self.view.window!, completionHandler: { (modalResponse) -> Void in
+            if modalResponse == NSAlertFirstButtonReturn {
+                print(dDown.selectedItem)
+                print(dDown.indexOfSelectedItem)
+                if dDown.selectedItem != nil && dDown.indexOfSelectedItem != -1 {
+                    let selection = profileList[dDown.indexOfSelectedItem]
+                    let data = NSKeyedArchiver.archivedDataWithRootObject(selection)
+                    self.defaults.setObject(data, forKey: "selectedProfile")
+                    self.selectedProfile.stringValue = selection.name
+                    self.restartProfile()
+                } else {
+                    self.defaults.removeObjectForKey("selectedProfile")
+                    self.restartProfile()
+                }
+            }
+        })
+    }
+    
     func selectionAlert(activity: String) {
         let myPopup: NSAlert = NSAlert()
         myPopup.messageText = "Can't \(activity)"
@@ -132,4 +182,46 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
             //Should Restart Program-Handle Error
         }
     }
+    
+    func restartProfile() {
+        if let data = defaults.objectForKey("selectedProfile") as? NSData {
+            let profile = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! SessionProfile
+            self.selectedProfile.stringValue = profile.name
+            cameraOrder = profile.cameraOrder
+            cameraCount = profile.cameraCount
+            checkImagesAgainstProfile(profile)
+        } else {
+            //GO DEFAULT
+            defaultProfile()
+        }
+    }
+    
+    func defaultProfile() {
+        selectedProfile.stringValue = "Default"
+        cameraOrder = []
+        for i in 0..<images.count {
+            cameraOrder.append(i)
+        }
+        cameraCount = cameraOrder.count
+    }
+    
+    func checkImagesAgainstProfile(profile: SessionProfile) {
+        if images.count != profile.cameraCount {
+            defaultAlert("Image Count do not match the profile's Camera Count")
+        }
+    }
+    
+    func defaultAlert(text: String) {
+        let myPopup: NSAlert = NSAlert()
+        myPopup.messageText = "Setting the Default Profile"
+        myPopup.informativeText = text
+        myPopup.alertStyle = NSAlertStyle.WarningAlertStyle
+        myPopup.addButtonWithTitle("OK")
+        let res = myPopup.runModal()
+        
+        if res == NSAlertFirstButtonReturn {
+            defaultProfile()
+        }
+    }
+    
 }

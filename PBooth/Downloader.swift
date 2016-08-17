@@ -12,6 +12,7 @@ class Downloader: NSViewController, EOSDownloadDelegate, EOSReadDataDelegate {
 
     var cameras: [EOSCamera] = []
     var progress: Int = 0
+    var images: [NSImage] = []
     
     @IBOutlet weak var progBar: NSProgressIndicator!
     @IBOutlet weak var progLbl: NSTextField!
@@ -25,17 +26,7 @@ class Downloader: NSViewController, EOSDownloadDelegate, EOSReadDataDelegate {
         
         for cam in cameras {
             let files: [EOSFile] = cameraFunctionality().getToFinalDirectory(cam)
-            downloadLastFile(cam, file: files[files.count-1])
-        }
-    }
-    
-    func downloadLastFile(cam: EOSCamera, file: EOSFile) {
-        do {
-            let directory = NSURL(fileURLWithPath: "/Users/jacobokoenig/Desktop/PBoothPictures/")
-            let options = try [EOSDownloadDirectoryURLKey : directory, EOSSaveAsFilenameKey : cam.stringValueForProperty(EOSProperty.SerialNumber), EOSOverwriteKey : false]
-            file.downloadWithOptions(options, delegate: self, contextInfo: nil)
-        } catch {
-            //Handle Error
+            files.last!.readDataWithDelegate(self, contextInfo: nil)
         }
     }
     
@@ -46,8 +37,6 @@ class Downloader: NSViewController, EOSDownloadDelegate, EOSReadDataDelegate {
     }
     
     func didDownloadFile(file: EOSFile!, withOptions options: [NSObject : AnyObject]!, contextInfo: AnyObject!, error: NSError!) {
-        
-        file.readDataWithDelegate(self, contextInfo: nil)
         
         var ocurrence = false
         
@@ -72,7 +61,33 @@ class Downloader: NSViewController, EOSDownloadDelegate, EOSReadDataDelegate {
     }
     
     func didReadData(data: NSData!, forFile file: EOSFile!, contextInfo: AnyObject!, error: NSError!) {
-        //Check if this method gets file is NSData
+
+        var ocurrence = false
+        
+        //Need To Handle Error
+        if error != nil && ocurrence == false {
+            ocurrence = true
+            images = []
+            generalAlert("Error", text: "An error ocurred while downloading a photography.")
+        }
+        
+        if ocurrence == false {
+            progress += 1
+            images.append(NSImage(data: data)!)
+            if progress < cameras.count {
+                progBar.doubleValue = Double(progress)/Double(cameras.count)
+                if progress == 1 {progBar.startAnimation(self)}
+                progLbl.stringValue = "Downloading Photography: \(String(progress+1))/\(String(cameras.count))"
+            } else {
+                orderPicturesAndSegue()
+            }
+        }
+
+    }
+    
+    func orderPicturesAndSegue() {
+        //Set up order before segueing.
+        self.performSegueWithIdentifier("toTab", sender: self)
     }
     
     override func prepareForSegue(segue: NSStoryboardSegue, sender: AnyObject?) {
@@ -80,7 +95,7 @@ class Downloader: NSViewController, EOSDownloadDelegate, EOSReadDataDelegate {
         if segue.identifier == "toTab" {
             let dVC = segue.destinationController as! TabView
             let session = dVC.childViewControllers[0] as! MySession
-            //session.images = images
+            session.images = images
         }
         
     }

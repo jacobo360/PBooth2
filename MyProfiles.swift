@@ -22,6 +22,7 @@ class MyProfiles: NSViewController, NSTableViewDelegate, NSTableViewDataSource, 
     @IBOutlet weak var numLbl: NSTextField!
     @IBOutlet weak var numTextField: NSTextField!
     @IBOutlet weak var addProfileBtn: NSButton!
+    @IBOutlet weak var profDeleteBtn: NSButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,14 +35,17 @@ class MyProfiles: NSViewController, NSTableViewDelegate, NSTableViewDataSource, 
     }
     
     override func viewWillAppear() {
-        setUpProfileMaker()
+        setUpProfileMaker(myProfilesTbl.selectedRow)
     }
     
     func tableViewSelectionDidChange(notification: NSNotification) {
-        let table = notification.object
-//        shortMemoryName = table?.selection as! String
-//        print(shortMemoryName)
-        setUpProfileMaker()
+        let tabl = notification.object as! NSTableView
+        if tabl == myProfilesTbl {
+            let row = tabl.selectedRow
+            //        shortMemoryName = table?.selection as! String
+            //        print(shortMemoryName)
+            setUpProfileMaker(row)
+        }
     }
     
     func numberOfRowsInTableView(tableView: NSTableView) -> Int {
@@ -140,8 +144,8 @@ class MyProfiles: NSViewController, NSTableViewDelegate, NSTableViewDataSource, 
     @IBAction func SaveProfile(sender: AnyObject) {
         let result: String = setNameModal("Save your Profile", question: "Please input your profile's name", defaultValue: shortMemoryName)
         if result != "" {
-            let newProfile = SessionProfile(name: result, cameraCount: shortMemoryOrder.count, cameraOrder: shortMemoryOrder)
-            if var data = defaults.objectForKey("profiles") {
+            let newProfile = SessionProfile(name: result, cameraCount: Int(numTextField.stringValue)!, cameraOrder: shortMemoryOrder)
+            if let data = defaults.objectForKey("profiles") {
                 var newArray = NSKeyedUnarchiver.unarchiveObjectWithData(data as! NSData) as! [SessionProfile]
                 newArray.removeAtIndex(0)
                 newArray.insert(newProfile, atIndex: 0)
@@ -153,10 +157,11 @@ class MyProfiles: NSViewController, NSTableViewDelegate, NSTableViewDataSource, 
             }
         }
         myProfilesTbl.reloadData()
+        setUpProfileMaker(myProfilesTbl.selectedRow)
     }
     
     @IBAction func addNew(sender: AnyObject) {
-        let newProfile = SessionProfile(name: "New Profile", cameraCount: shortMemoryOrder.count, cameraOrder: shortMemoryOrder)
+        let newProfile = SessionProfile(name: "New Profile", cameraCount: 17, cameraOrder: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17])
         
         if let data = defaults.objectForKey("profiles") as? NSData {
             var newArray = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! [SessionProfile]
@@ -170,12 +175,23 @@ class MyProfiles: NSViewController, NSTableViewDelegate, NSTableViewDataSource, 
         myProfilesTbl.reloadData()
     }
     
+    @IBAction func deleteProfile(sender: AnyObject) {
+        if let data = defaults.objectForKey("profiles") as? NSData {
+            var newArray = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! [SessionProfile]
+            newArray.removeAtIndex(myProfilesTbl.selectedRow)
+            let newData = NSKeyedArchiver.archivedDataWithRootObject(newArray)
+            defaults.setObject(newData, forKey: "profiles")
+            myProfilesTbl.reloadData()
+        }
+    }
+    
     func setNameModal(title: String, question: String, defaultValue: String) -> String {
         let msg = NSAlert()
         msg.addButtonWithTitle("Save")
         msg.addButtonWithTitle("Cancel")
         msg.messageText = title
         msg.informativeText = question
+        msg.alertStyle = NSAlertStyle.InformationalAlertStyle
         
         let txt = NSTextField(frame: NSRect(x: 0, y: 0, width: 200, height: 24))
         txt.stringValue = defaultValue
@@ -234,13 +250,20 @@ class MyProfiles: NSViewController, NSTableViewDelegate, NSTableViewDataSource, 
         }
     }
     
-    func setUpProfileMaker() {
-        let pMakeArray: [NSView] = [profTblView, duplicateBtn, deleteBtn, numLbl, numTextField, addProfileBtn]
+    func setUpProfileMaker(row: Int) {
+        let pMakeArray: [NSView] = [profTblView, duplicateBtn, deleteBtn, numLbl, numTextField, addProfileBtn, profDeleteBtn]
         if myProfilesTbl.selectedRow == -1 {
             for pMake in pMakeArray {
                 pMake.hidden = true
             }
         } else {
+            if let data = defaults.objectForKey("profiles") as? NSData {
+                var newArray = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! [SessionProfile]
+                let thisProfile = newArray[row]
+                shortMemoryName = thisProfile.name
+                shortMemoryOrder = thisProfile.cameraOrder
+                numTextField.stringValue = String(thisProfile.cameraCount)
+            }
             for pMake in pMakeArray {
                 pMake.hidden = false
             }

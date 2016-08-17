@@ -56,6 +56,10 @@ class cameraFunctionality {
         return []
     }
     
+    func getLastPictureTaken(file: [EOSFile]) -> EOSFile {
+        return file.last!
+    }
+    
     func checkCam() {
         print("checking cam")
         let cameraList = EOSManager.sharedManager().getCameras()

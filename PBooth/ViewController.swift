@@ -18,6 +18,7 @@ class ViewController: NSViewController, EOSReadDataDelegate {
     @IBOutlet weak var navView: NSView!
     @IBOutlet weak var cameraNumLbl: NSTextField!
     @IBOutlet weak var shutterBtn: NSButton!
+    @IBOutlet weak var startBtn: NSButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,14 +28,20 @@ class ViewController: NSViewController, EOSReadDataDelegate {
         navView.layer?.backgroundColor = TEAL.CGColor
         self.view.wantsLayer = true
         self.view.layer?.backgroundColor = NSColor.whiteColor().CGColor
+        startBtn.hidden = true
         
         //Get Cameras
-        _ = NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(1), target: self, selector: #selector(ViewController.go), userInfo: nil, repeats: false)
+        NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(1), target: self, selector: #selector(ViewController.go), userInfo: nil, repeats: false)
     }
     
     func go() {
         //Get Cameras
         camArray = cameraFunctionality().getCamsWithOpenSession(self)
+        startBtn.hidden = false
+    }
+    
+    @IBAction func startBtn(sender: AnyObject) {
+        self.performSegueWithIdentifier("downloader", sender: self)
     }
     
     override var representedObject: AnyObject? {
