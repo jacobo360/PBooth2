@@ -10,7 +10,6 @@
 		7E0EE7E61D625AAF003FC151 /* SessionProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0EE7E51D625AAF003FC151 /* SessionProfile.swift */; };
 		7E0EE7EC1D625BB4003FC151 /* MyProfiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0EE7EB1D625BB4003FC151 /* MyProfiles.swift */; };
 		7E42B1551D63F79700709933 /* MyCameras.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E42B1531D63F79700709933 /* MyCameras.swift */; };
-		7E42B1561D63F79700709933 /* MyCameras.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E42B1541D63F79700709933 /* MyCameras.xib */; };
 		7E4C2DF01D5A7BDA002CE808 /* ReplaceSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E4C2DEF1D5A7BDA002CE808 /* ReplaceSegue.swift */; };
 		7E4C2DF21D5A7D61002CE808 /* TabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E4C2DF11D5A7D61002CE808 /* TabView.swift */; };
 		7E4C2DF41D5AC36A002CE808 /* Downloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E4C2DF31D5AC36A002CE808 /* Downloader.swift */; };
@@ -65,7 +64,6 @@
 		7E0EE7E51D625AAF003FC151 /* SessionProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionProfile.swift; sourceTree = "<group>"; };
 		7E0EE7EB1D625BB4003FC151 /* MyProfiles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MyProfiles.swift; path = ../MyProfiles.swift; sourceTree = "<group>"; };
 		7E42B1531D63F79700709933 /* MyCameras.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyCameras.swift; sourceTree = "<group>"; };
-		7E42B1541D63F79700709933 /* MyCameras.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyCameras.xib; sourceTree = "<group>"; };
 		7E4C2DEF1D5A7BDA002CE808 /* ReplaceSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReplaceSegue.swift; sourceTree = "<group>"; };
 		7E4C2DF11D5A7D61002CE808 /* TabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabView.swift; sourceTree = "<group>"; };
 		7E4C2DF31D5AC36A002CE808 /* Downloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Downloader.swift; sourceTree = "<group>"; };
@@ -158,7 +156,6 @@
 				7ECA32B31D54DEC800449835 /* Info.plist */,
 				7ECA32AE1D54DEC800449835 /* Assets.xcassets */,
 				7ECA32B01D54DEC800449835 /* Main.storyboard */,
-				7E42B1541D63F79700709933 /* MyCameras.xib */,
 				7ECA32D71D54DF1300449835 /* PBooth-Bridging-Header.h */,
 				7ECA32D51D54DEEB00449835 /* EOSFramework.framework */,
 				7ECA32D81D54DF5C00449835 /* EDSDK.framework */,
@@ -302,7 +299,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7E42B1561D63F79700709933 /* MyCameras.xib in Resources */,
 				7ECA32AF1D54DEC800449835 /* Assets.xcassets in Resources */,
 				7ECA32B21D54DEC800449835 /* Main.storyboard in Resources */,
 			);

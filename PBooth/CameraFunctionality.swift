@@ -44,9 +44,9 @@ class cameraFunctionality {
                 let num = number as! EOSFile
                 
                 let num2 = num.files() as! [EOSFile]
-                try print("num2" + num2[0].info().name)
-                let num3 = num2[0].files() as! [EOSFile]
-                try print("num3" + num3[0].info().name)
+                try print("num2 " + num2[1].info().name)
+                let num3 = num2[1].files() as! [EOSFile]
+                try print(num3[num3.count - 1].info().name)
                 return num3
             }
         } catch {
@@ -60,40 +60,16 @@ class cameraFunctionality {
         return file.last!
     }
     
-    func checkCam() {
-        print("checking cam")
-        let cameraList = EOSManager.sharedManager().getCameras()
-        
-        for camera in cameraList {
-            
-            let cam = camera as! EOSCamera
-            
+    func getSerials(cameras: [EOSCamera]) -> [String] {
+        var cameraSerials: [String] = []
+        for camera in cameras {
             do {
-                try cam.openSession()
-                let serialNumber = try cam.stringValueForProperty(EOSProperty.SerialNumber)
-                print(serialNumber)
-                
-                
-                let volumeList = cam.volumes()
-                let volume = volumeList[0] as! EOSVolume
-                for number in volume.files() {
-                    
-                    let num = number as! EOSFile
-                    
-                    let num2 = num.files() as! [EOSFile]
-                    for n in num2 {
-                        try print(n.info().name)
-                        let num3 = n.files() as! [EOSFile]
-                        let directory = NSURL(fileURLWithPath: "/Users/jacobokoenig/Desktop/ThePicture/")
-                        let options = try [EOSDownloadDirectoryURLKey : directory, EOSSaveAsFilenameKey : num3[num3.count - 19].info().name, EOSOverwriteKey : false]
-                        //num3[num3.count - 19].downloadWithOptions(options, delegate: self, contextInfo: nil)
-                    }
-                }
-                
+                try cameraSerials.append(camera.stringValueForProperty(EOSProperty.SerialNumber))
             } catch {
-                
+                print("Error getting serial number")
             }
         }
+        return cameraSerials
     }
     
     //Alert
