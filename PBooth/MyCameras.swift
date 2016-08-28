@@ -12,6 +12,7 @@ class MyCameras: NSViewController, NSTableViewDelegate, NSTableViewDataSource, N
     
     var cameraOrder: [String:Int] = [:]
     var connectedCameras: [EOSCamera] = []
+    var connectedUnsubscribed: [String] = []
     var cameraSerials: [String] = []
     let defaults = NSUserDefaults.standardUserDefaults()
     
@@ -19,71 +20,89 @@ class MyCameras: NSViewController, NSTableViewDelegate, NSTableViewDataSource, N
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         //Set Up Design
         self.view.wantsLayer = true
         self.view.layer?.backgroundColor = NSColor.whiteColor().CGColor
         
         //Set Up Connection
-        cameraSerials = cameraFunctionality().getSerials(connectedCameras)
+        reconnect()
+    }
+    
+    func reconnect() {
         if let orderArray = defaults.objectForKey("cameraOrder") as? [String:Int] {
+            connectedUnsubscribed = []
             cameraOrder = orderArray
+            //Append only unsubscribed cameras
+            for i in 0..<connectedCameras.count {
+                let serial = cameraFunctionality().getSerials([connectedCameras[i]])[0]
+                if !cameraOrder.keys.contains(serial) {
+                    connectedUnsubscribed.append(serial)
+                } else {
+                }
+            }
+        } else {
+            connectedUnsubscribed = cameraFunctionality().getSerials(connectedCameras)
         }
+        tblView.reloadData()
     }
     
     func numberOfRowsInTableView(tableView: NSTableView) -> Int {
-        return cameraOrder.count + connectedCameras.count
+        
+        return cameraOrder.keys.count + connectedUnsubscribed.count
     }
     
     func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        
-        let cameraCell = tableView.makeViewWithIdentifier("Camera", owner: self) as? NSTableCellView
-        let positionCell = tableView.makeViewWithIdentifier("Position", owner: self) as? NSTableCellView
-        
-        if tableColumn == 0 {
-            
+        let cell = tableView.makeViewWithIdentifier("Camera", owner: nil) as? NSTableCellView
+        if tableColumn?.identifier == "Column0" {
             if row < cameraOrder.count {
-                cameraCell?.textField?.stringValue = Array(cameraOrder.keys)[row]
-                return cameraCell
+                cell?.textField?.stringValue = Array(cameraOrder.keys)[row]
+                return cell
             } else {
-                cameraCell?.textField?.stringValue = cameraSerials[row - cameraOrder.count]
-                return cameraCell
+                cell?.textField?.stringValue = connectedUnsubscribed[row - cameraOrder.count]
+                return cell
             }
             
         } else {
-            
             if row < cameraOrder.count {
-                positionCell?.textField?.stringValue = String(Array(cameraOrder.values)[row])
-                return positionCell
+                print(row)
+                print(String(Array(cameraOrder.values)[row]))
+                cell?.textField?.delegate = self
+                cell?.textField!.placeholderString = "Position Here"
+                cell!.textField!.editable = true
+                cell!.textField!.stringValue = String(Array(cameraOrder.values)[row])
+                return cell
             } else {
-                return positionCell
+                return cell
             }
             
         }
     }
     
     func control(control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
-        
+        print("textEndEditing")
         let tField = control as! NSTextField
         let i = tblView.rowForView(tField.superview as! NSTableCellView)
         
-        if Int(tField.stringValue) != nil && Int(tField.stringValue) >= 0 {
-            let camSerial = (tblView.viewAtColumn(0, row: i, makeIfNecessary: false)?.subviews[0] as! NSTextField).stringValue
-            subscribeCamera(camSerial, tField: tField)
-            tblView.reloadData()
-            return true
-        } else {
-            tField.stringValue = ""
-            textFieldAlert("Isn't it obvious?", mess: "Please input a positive integer on the text field!")
-            tblView.reloadData()
-            return false
-        }
+        if i >= 0 {
+            if Int(tField.stringValue) != nil && Int(tField.stringValue) >= 0 {
+                let camSerial = (tblView.viewAtColumn(0, row: i, makeIfNecessary: false)?.subviews[0] as! NSTextField).stringValue
+                print(camSerial)
+                subscribeCamera(camSerial, tField: tField)
+                tblView.reloadData()
+                return true
+            } else {
+                tField.stringValue = ""
+                textFieldAlert("Isn't it obvious?", mess: "Please input a positive integer on the text field!")
+                tblView.reloadData()
+                return false
+            }
+        } else {return false}
     }
     
     func subscribeCamera(serial: String, tField: NSTextField) {
         
         if let orderArray = defaults.objectForKey("cameraOrder") as? [String:Int] {
-            
             cameraOrder = orderArray
             if cameraOrder.values.contains(Int(tField.stringValue)!) || cameraOrder.keys.contains(serial) {
                 tField.stringValue = ""
@@ -91,19 +110,23 @@ class MyCameras: NSViewController, NSTableViewDelegate, NSTableViewDataSource, N
             } else {
                 cameraOrder[serial] = Int(tField.stringValue)!
                 let sorted = sortDict(cameraOrder)
+                print(sorted)
                 defaults.setObject(sorted, forKey: "cameraOrder")
+                reconnect()
             }
         
         } else {
             let dict = [serial:Int(tField.stringValue)!]
+            print(dict)
             defaults.setObject(dict, forKey: "cameraOrder")
+            reconnect()
         }
         
     }
     
     func sortDict(d: [String:Int]) -> [String:Int] {
         var sorted: [String:Int] = [:]
-        for (k,v) in (Array(d).sort {$0.1 < $1.1}) {
+        for (k,v) in (Array(d).sort {$1.1 < $0.1}) {
             sorted[k] = v
         }
         return sorted

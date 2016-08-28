@@ -37,7 +37,7 @@ class ViewController: NSViewController, EOSReadDataDelegate {
     func go() {
         //Get Cameras
         camArray = cameraFunctionality().getCamsWithOpenSession(self)
-        print(camArray)
+        //print(camArray)
         startBtn.hidden = false
     }
     
@@ -46,13 +46,7 @@ class ViewController: NSViewController, EOSReadDataDelegate {
     }
     
     @IBAction func shutter(sender: AnyObject) {
-//        for cam in camArray {
-//            do {
-//                try cam.sendCommand(EOSCameraCommand.Command_TakePicture)
-//            } catch {
-//                print("error")
-//            }
-//        }
+        checkCam()
     }
     
     override var representedObject: AnyObject? {
@@ -78,37 +72,44 @@ class ViewController: NSViewController, EOSReadDataDelegate {
     }
     
     func checkCam() {
-        print("checking cam")
-        let cameraList = EOSManager.sharedManager().getCameras()
         
-        for camera in cameraList {
-            
-            let cam = camera as! EOSCamera
-            
+        for cam in camArray {
             do {
-                try cam.openSession()
-                let serialNumber = try cam.stringValueForProperty(EOSProperty.SerialNumber)
-                print(serialNumber)
-                
-                
                 let volumeList = cam.volumes()
                 let volume = volumeList[0] as! EOSVolume
                 for number in volume.files() {
-                    
                     let num = number as! EOSFile
-                    
-                        let num2 = num.files() as! [EOSFile]
-                        for n in num2 {
-                            try print(n.info().name)
-                            let num3 = n.files() as! [EOSFile]
-                            //let directory = NSURL(fileURLWithPath: "/Users/jacobokoenig/Desktop/ThePicture/")
-                            //let options = try [EOSDownloadDirectoryURLKey : directory, EOSSaveAsFilenameKey : num3[num3.count - 19].info().name, EOSOverwriteKey : false]
-                            num3[num3.count - 4].readDataWithDelegate(self, contextInfo: nil)
+                    var num2: [EOSFile] = []
+                    var num3: [EOSFile] = []
+                    let name = try num.info().name
+                    if name == "DCIM" {
+                        num2 = num.files() as! [EOSFile]
+                        num3 = num2[0].files() as! [EOSFile]
+                        try print(num3[0].info().name)
                     }
+//                    for n in num2 {
+//                        let name = try n.info().name
+//                        print(name)
+//                        if name == "111CANON" {
+//                        }
+//                    }
+//                    let num2 = num.files() as! [EOSFile]
+//                    var num3: [EOSFile] = []
+//                    for n in num2 {
+//                        try print(n.info().name)
+//                        let name = try n.info().name
+//                        if name == "DCIM" {
+//                            num3 = n.files() as! [EOSFile]
+//                        }
+                    //}
+                    //try print(num3[0].info().name)
+                    //                let num3 = num2[1].files() as! [EOSFile]
+                    //                try print(num3[num3.count - 1].info().name)
+                    //                return num3
                 }
-                
             } catch {
-                
+                //Handle Error
+                print("catched")
             }
         }
     }

@@ -40,17 +40,20 @@ class cameraFunctionality {
             let volumeList = cam.volumes()
             let volume = volumeList[0] as! EOSVolume
             for number in volume.files() {
-                
                 let num = number as! EOSFile
-                
-                let num2 = num.files() as! [EOSFile]
-                try print("num2 " + num2[1].info().name)
-//                let num3 = num2[1].files() as! [EOSFile]
-//                try print(num3[num3.count - 1].info().name)
-//                return num3
+                var num2: [EOSFile] = []
+                var num3: [EOSFile] = []
+                let name = try num.info().name
+                if name == "DCIM" {
+                    num2 = num.files() as! [EOSFile]
+                    num3 = num2[0].files() as! [EOSFile]
+                    try print(num3[0].info().name)
+                    return num3
+                }
             }
         } catch {
             //Handle Error
+            print("catched")
             return []
         }
         return []
@@ -72,6 +75,21 @@ class cameraFunctionality {
         return cameraSerials
     }
     
+    func getSerial(sender: Downloader, camera: EOSCamera) -> String {
+        var serial = ""
+        do {
+            serial = try camera.stringValueForProperty(EOSProperty.SerialNumber)
+            delay(0.5) {
+                sender.getLastFile(camera, serial: serial)
+            }
+            return try camera.stringValueForProperty(EOSProperty.SerialNumber)
+        } catch {
+            print("Error getting serial number")
+        }
+        return ""
+    
+    }
+    
     //Alert
     func generalAlert(question: String, text: String) {
         let myPopup: NSAlert = NSAlert()
@@ -84,6 +102,15 @@ class cameraFunctionality {
         if res == NSAlertFirstButtonReturn {
             //Should Restart Program-Handle Error
         }
+    }
+    
+    func delay(delay:Double, closure:()->()) {
+        dispatch_after(
+            dispatch_time(
+                DISPATCH_TIME_NOW,
+                Int64(delay * Double(NSEC_PER_SEC))
+            ),
+            dispatch_get_main_queue(), closure)
     }
 
 }

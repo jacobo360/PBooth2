@@ -16,7 +16,7 @@ extension Dictionary {
     }
 }
 
-class Downloader: NSViewController, EOSDownloadDelegate, EOSReadDataDelegate {
+class Downloader: NSViewController, EOSReadDataDelegate {
 
     var cameras: [EOSCamera] = []
     var progress: Int = 0
@@ -41,39 +41,41 @@ class Downloader: NSViewController, EOSDownloadDelegate, EOSReadDataDelegate {
         spinner.startAnimation(self)
 
         for cam in cameras {
-            let files: [EOSFile] = cameraFunctionality().getToFinalDirectory(cam)
-            let serial = cameraFunctionality().getSerials([cam])
-            print(serial)
-            //files.last!.readDataWithDelegate(self, contextInfo: serial[0])
+            let serial = cameraFunctionality().getSerial(self, camera: cam)
+            print("serial" + serial)
+            //let files: [EOSFile] = cameraFunctionality().getToFinalDirectory(cam)
+            //files.last!.readDataWithDelegate(self, contextInfo: serial)
         }
     }
     
-    override func viewDidAppear() {
+    func getLastFile(cam: EOSCamera, serial: String) {
+        let files: [EOSFile] = cameraFunctionality().getToFinalDirectory(cam)
+        files.last!.readDataWithDelegate(self, contextInfo: serial)
     }
     
-    func didDownloadFile(file: EOSFile!, withOptions options: [NSObject : AnyObject]!, contextInfo: AnyObject!, error: NSError!) {
-        
-        var ocurrence = false
-        
-        //Need To Handle Error
-        if error != nil && ocurrence == false {
-            ocurrence = true
-            generalAlert("Error", text: "An error ocurred while downloading a photography.")
-        }
-        
-        if ocurrence == false {
-            progress += 1
-            if progress < cameras.count {
-                progBar.doubleValue = Double(progress)/Double(cameras.count)
-                if progress == 1 {progBar.startAnimation(self)}
-                progLbl.stringValue = "Downloading Photography: \(String(progress+1))/\(String(cameras.count))"
-            } else {
-                //Set up order and profile before segue
-                self.performSegueWithIdentifier("toTab", sender: self)
-            }
-        }
-        
-    }
+//    func didDownloadFile(file: EOSFile!, withOptions options: [NSObject : AnyObject]!, contextInfo: AnyObject!, error: NSError!) {
+//        
+//        var ocurrence = false
+//        
+//        //Need To Handle Error
+//        if error != nil && ocurrence == false {
+//            ocurrence = true
+//            generalAlert("Error", text: "An error ocurred while downloading a photography.")
+//        }
+//        
+//        if ocurrence == false {
+//            progress += 1
+//            if progress < cameras.count {
+//                progBar.doubleValue = Double(progress)/Double(cameras.count)
+//                if progress == 1 {progBar.startAnimation(self)}
+//                progLbl.stringValue = "Downloading Photography: \(String(progress+1))/\(String(cameras.count))"
+//            } else {
+//                //Set up order and profile before segue
+//                self.performSegueWithIdentifier("toTab", sender: self)
+//            }
+//        }
+//        
+//    }
     
     func didReadData(data: NSData!, forFile file: EOSFile!, contextInfo: AnyObject!, error: NSError!) {
 
