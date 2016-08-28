@@ -24,17 +24,22 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //Set Up Design
+        //Set Up and Design
         self.view.wantsLayer = true
         self.view.layer?.backgroundColor = NSColor.whiteColor().CGColor
-
-        getImages()
         tableView.registerForDraggedTypes([NSGeneralPboard])
+        
+        getImages()
         
         //GIFMaker().createGIF(with: images, frameDelay: 0.2)
         
         //Set Up Selected Profile
         restartProfile()
+    }
+    
+    override func viewDidAppear() {
+        let win = self.view.window
+        win!.setFrame(NSMakeRect(win!.frame.minX, win!.frame.minY, win!.frame.width, win!.frame.height+1), display: true)
     }
     
     func getImages() {
@@ -47,19 +52,18 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
     
     func tableViewSelectionDidChange(notification: NSNotification) {
         let table = notification.object
-        let selection = table?.selectedRow
-        imgView.image = images[selection!]
+        let selection = Int(table!.cellAtIndex(table!.selectedRow).stringValue!)!
+        imgView.image = images[selection]
     }
     
     func numberOfRowsInTableView(tableView: NSTableView) -> Int {
-        
-        return images.count
+        return cameraOrder.count
     }
     
     func tableView(tableView: NSTableView, objectValueForTableColumn tableColumn: NSTableColumn?, row: Int) -> AnyObject? {
         
-        tableView.cell?.title = String(numbers[row])
-        return numbers[row]
+        tableView.cell?.title = String(cameraOrder[row])
+        return cameraOrder[row]
     }
     
     func tableView(tableView: NSTableView, writeRowsWithIndexes rowIndexes: NSIndexSet, toPasteboard pboard: NSPasteboard) -> Bool {
@@ -80,23 +84,41 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         return .None
     }
     
+//    func tableView(tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableViewDropOperation) -> Bool {
+//        
+//        let data: NSData = info.draggingPasteboard().dataForType(NSGeneralPboard)!
+//        let rowIndexes: NSIndexSet = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! NSIndexSet
+//        let value: NSImage = images[rowIndexes.firstIndex]
+//        let sValue: String = numbers[rowIndexes.firstIndex]
+//        
+//        if rowIndexes.firstIndex < row {
+//            numbers.insert(sValue, atIndex: row)
+//            images.insert(value, atIndex: row)
+//            numbers.removeAtIndex(rowIndexes.firstIndex)
+//            images.removeAtIndex(rowIndexes.firstIndex)
+//        } else if rowIndexes.firstIndex > row {
+//            numbers.removeAtIndex(rowIndexes.firstIndex)
+//            images.removeAtIndex(rowIndexes.firstIndex)
+//            numbers.insert(sValue, atIndex: row)
+//            images.insert(value, atIndex: row)
+//        }
+//        
+//        tableView.reloadData()
+//        return true
+//    }
+    
     func tableView(tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableViewDropOperation) -> Bool {
         
         let data: NSData = info.draggingPasteboard().dataForType(NSGeneralPboard)!
         let rowIndexes: NSIndexSet = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! NSIndexSet
-        let value: NSImage = images[rowIndexes.firstIndex]
-        let sValue: String = numbers[rowIndexes.firstIndex]
+        let value: Int = cameraOrder[rowIndexes.firstIndex]
         
         if rowIndexes.firstIndex < row {
-            numbers.insert(sValue, atIndex: row)
-            images.insert(value, atIndex: row)
-            numbers.removeAtIndex(rowIndexes.firstIndex)
-            images.removeAtIndex(rowIndexes.firstIndex)
+            cameraOrder.insert(value, atIndex: row)
+            cameraOrder.removeAtIndex(rowIndexes.firstIndex)
         } else if rowIndexes.firstIndex > row {
-            numbers.removeAtIndex(rowIndexes.firstIndex)
-            images.removeAtIndex(rowIndexes.firstIndex)
-            numbers.insert(sValue, atIndex: row)
-            images.insert(value, atIndex: row)
+            cameraOrder.removeAtIndex(rowIndexes.firstIndex)
+            cameraOrder.insert(value, atIndex: row)
         }
         
         tableView.reloadData()
@@ -106,10 +128,8 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
     @IBAction func duplicateBtn(sender: AnyObject) {
         if tableView.selectedRow != -1 {
             let row = tableView.selectedRow
-            let value: NSImage = images[row]
-            let sValue: String = numbers[row]
-            numbers.insert(sValue, atIndex: row)
-            images.insert(value, atIndex: row)
+            let value: Int = cameraOrder[row]
+            cameraOrder.insert(value, atIndex: row)
             tableView.reloadData()
         } else {
             selectionAlert("Duplicate")
@@ -120,8 +140,7 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         //NOTE: Select previous row after duplication
         if tableView.selectedRow != -1 {
             let row = tableView.selectedRow
-            numbers.removeAtIndex(row)
-            images.removeAtIndex(row)
+            cameraOrder.removeAtIndex(row)
             tableView.reloadData()
         } else {
             selectionAlert("Delete")
@@ -203,6 +222,7 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
             cameraOrder.append(i)
         }
         cameraCount = cameraOrder.count
+        tableView.reloadData()
     }
     
     func checkImagesAgainstProfile(profile: SessionProfile) {

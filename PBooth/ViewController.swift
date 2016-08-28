@@ -45,6 +45,16 @@ class ViewController: NSViewController, EOSReadDataDelegate {
         self.performSegueWithIdentifier("downloader", sender: self)
     }
     
+    @IBAction func shutter(sender: AnyObject) {
+//        for cam in camArray {
+//            do {
+//                try cam.sendCommand(EOSCameraCommand.Command_TakePicture)
+//            } catch {
+//                print("error")
+//            }
+//        }
+    }
+    
     override var representedObject: AnyObject? {
         didSet {
             // Update the view, if already loaded.
@@ -61,6 +71,8 @@ class ViewController: NSViewController, EOSReadDataDelegate {
             //configVC.removeTabViewItem(configVC.tabViewItems[0])
             configVC.configMode = true
             configVC.selectedTabViewItemIndex = 2
+            let myCams = configVC.childViewControllers[2] as! MyCameras
+            myCams.connectedCameras = camArray
         }
         
     }

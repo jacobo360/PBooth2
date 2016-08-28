@@ -26,6 +26,9 @@ class MyCameras: NSViewController, NSTableViewDelegate, NSTableViewDataSource, N
         
         //Set Up Connection
         cameraSerials = cameraFunctionality().getSerials(connectedCameras)
+        if let orderArray = defaults.objectForKey("cameraOrder") as? [String:Int] {
+            cameraOrder = orderArray
+        }
     }
     
     func numberOfRowsInTableView(tableView: NSTableView) -> Int {

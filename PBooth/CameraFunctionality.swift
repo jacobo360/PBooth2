@@ -45,9 +45,9 @@ class cameraFunctionality {
                 
                 let num2 = num.files() as! [EOSFile]
                 try print("num2 " + num2[1].info().name)
-                let num3 = num2[1].files() as! [EOSFile]
-                try print(num3[num3.count - 1].info().name)
-                return num3
+//                let num3 = num2[1].files() as! [EOSFile]
+//                try print(num3[num3.count - 1].info().name)
+//                return num3
             }
         } catch {
             //Handle Error

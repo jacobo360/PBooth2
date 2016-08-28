@@ -8,11 +8,21 @@
 
 import Cocoa
 
+extension Dictionary {
+    mutating func merge<K, V>(dict: [K: V]){
+        for (k, v) in dict {
+            self.updateValue(v as! Value, forKey: k as! Key)
+        }
+    }
+}
+
 class Downloader: NSViewController, EOSDownloadDelegate, EOSReadDataDelegate {
 
     var cameras: [EOSCamera] = []
     var progress: Int = 0
-    var images: [NSImage] = []
+    var dict: [String: NSImage] = [:]
+    var sorted: [String: NSImage] = [:]
+    var defaults = NSUserDefaults.standardUserDefaults()
     
     @IBOutlet weak var progBar: NSProgressIndicator!
     @IBOutlet weak var progLbl: NSTextField!
@@ -32,7 +42,9 @@ class Downloader: NSViewController, EOSDownloadDelegate, EOSReadDataDelegate {
 
         for cam in cameras {
             let files: [EOSFile] = cameraFunctionality().getToFinalDirectory(cam)
-            files.last!.readDataWithDelegate(self, contextInfo: nil)
+            let serial = cameraFunctionality().getSerials([cam])
+            print(serial)
+            //files.last!.readDataWithDelegate(self, contextInfo: serial[0])
         }
     }
     
@@ -70,13 +82,13 @@ class Downloader: NSViewController, EOSDownloadDelegate, EOSReadDataDelegate {
         //Need To Handle Error
         if error != nil && ocurrence == false {
             ocurrence = true
-            images = []
+            dict = [:]
             generalAlert("Error", text: "An error ocurred while downloading a photography.")
         }
         
         if ocurrence == false {
             progress += 1
-            images.append(NSImage(data: data)!)
+            dict[contextInfo as! String] = NSImage(data: data)!
             if progress < cameras.count {
                 progBar.doubleValue = Double(progress)/Double(cameras.count)
                 if progress == 1 {progBar.startAnimation(self)}
@@ -90,6 +102,18 @@ class Downloader: NSViewController, EOSDownloadDelegate, EOSReadDataDelegate {
     
     func orderPicturesAndSegue() {
         //Set up order before segueing.
+        var standByDict: [String:NSImage] = [:]
+        if let orderArray = defaults.objectForKey("cameraOrder") as? [String:Int] {
+            for cam in dict.keys {
+                if orderArray[cam] != nil {
+                    sorted[cam] = dict[cam]
+                } else {
+                    standByDict[cam] = dict[cam]
+                }
+                sorted.merge(standByDict)
+            }
+        }
+        
         self.performSegueWithIdentifier("toTab", sender: self)
     }
     
@@ -100,7 +124,7 @@ class Downloader: NSViewController, EOSDownloadDelegate, EOSReadDataDelegate {
             let session = dVC.childViewControllers[0] as! MySession
             let myCams = dVC.childViewControllers[2] as! MyCameras
             myCams.connectedCameras = cameras
-            session.images = images
+            session.images = Array(sorted.values)
         }
         
     }
