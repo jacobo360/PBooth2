@@ -23,6 +23,8 @@ class Downloader: NSViewController, EOSReadDataDelegate {
     var dict: [String: NSImage] = [:]
     var sorted: [String: NSImage] = [:]
     var defaults = NSUserDefaults.standardUserDefaults()
+    var cameraMatch = true
+    var images: [NSImage] = []
     
     @IBOutlet weak var progBar: NSProgressIndicator!
     @IBOutlet weak var progLbl: NSTextField!
@@ -31,9 +33,9 @@ class Downloader: NSViewController, EOSReadDataDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if cameras.count == 0 {
-            generalAlert("No cameras Detected", text: "There seems to be no cameras connected and turned on, please check the connection and try again")
-        }
+//        if cameras.count == 0 {
+//            generalAlert("No cameras Detected", text: "There seems to be no cameras connected and turned on, please check the connection and try again")
+//        }
         
         //Set up Design
         self.view.wantsLayer = true
@@ -42,10 +44,14 @@ class Downloader: NSViewController, EOSReadDataDelegate {
 
         for cam in cameras {
             let serial = cameraFunctionality().getSerial(self, camera: cam)
-            print("serial" + serial)
             //let files: [EOSFile] = cameraFunctionality().getToFinalDirectory(cam)
             //files.last!.readDataWithDelegate(self, contextInfo: serial)
         }
+        let triggerTime = (Int64(NSEC_PER_SEC) * 1)
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, triggerTime), dispatch_get_main_queue(), { () -> Void in
+            self.orderPicturesAndSegue()
+        })
+        
     }
     
     func getLastFile(cam: EOSCamera, serial: String) {
@@ -103,32 +109,49 @@ class Downloader: NSViewController, EOSReadDataDelegate {
     }
     
     func orderPicturesAndSegue() {
+        images = []
+        
         //Set up order before segueing.
-        var standByDict: [String:NSImage] = [:]
-        if let orderArray = defaults.objectForKey("cameraOrder") as? [String:Int] {
-            for cam in dict.keys {
-                if orderArray[cam] != nil {
-                    sorted[cam] = dict[cam]
-                } else {
-                    standByDict[cam] = dict[cam]
+        if let orderArray = defaults.objectForKey("cameraOrder") as? [Int:String] {
+            
+            //Check all cameras connected are registered
+            //Check all serials are contained
+            let listCurrent = NSSet(array: Array(dict.keys))
+            let listRegistered = NSSet(array: Array(orderArray.values))
+            if listCurrent.isSubsetOfSet(listRegistered as Set<NSObject>) {
+                for i in orderArray.keys.sort(<) {
+                    if dict[orderArray[i]!] != nil {
+                        images.append(dict[orderArray[i]!]!)
+                    }
                 }
-                sorted.merge(standByDict)
+            } else {
+                //Alert that not all cameras are registered
+                images = Array(dict.values)
             }
-        }
+            
+        } else { images = Array(dict.values) }
         
         self.performSegueWithIdentifier("toTab", sender: self)
     }
     
     override func prepareForSegue(segue: NSStoryboardSegue, sender: AnyObject?) {
-        
         if segue.identifier == "toTab" {
             let dVC = segue.destinationController as! TabView
             let session = dVC.childViewControllers[0] as! MySession
             let myCams = dVC.childViewControllers[2] as! MyCameras
+            session.camMatch = cameraMatch
+            session.pictures = dict
             myCams.connectedCameras = cameras
-            session.images = Array(sorted.values)
+            session.images = getImages()
         }
-        
+    }
+    
+    func getImages() -> [NSImage] {
+        images = []
+        for i in 0..<17 {
+            images.append(NSImage(named: String(i+1))!)
+        }
+        return images
     }
     
     func generalAlert(question: String, text: String) {

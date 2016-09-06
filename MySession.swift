@@ -16,10 +16,11 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
     @IBOutlet weak var imgView: NSImageView!
     @IBOutlet weak var selectedProfile: NSTextField!
     
-    var numbers: [String] = []
     var images:[NSImage] = []
     var cameraOrder: [Int] = []
     var cameraCount: Int = 0
+    var camMatch = false
+    var pictures: [String: NSImage] = [:]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,8 +29,6 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         self.view.wantsLayer = true
         self.view.layer?.backgroundColor = NSColor.whiteColor().CGColor
         tableView.registerForDraggedTypes([NSGeneralPboard])
-        
-        getImages()
         
         //GIFMaker().createGIF(with: images, frameDelay: 0.2)
         
@@ -42,17 +41,9 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         win!.setFrame(NSMakeRect(win!.frame.minX, win!.frame.minY, win!.frame.width, win!.frame.height+1), display: true)
     }
     
-    func getImages() {
-        images = []
-        for i in 50...66 {
-            images.append(NSImage(named: "IMG_67\(i)")!)
-            numbers.append(String(i-49))
-        }
-    }
-    
     func tableViewSelectionDidChange(notification: NSNotification) {
-        let table = notification.object
-        let selection = Int(table!.cellAtIndex(table!.selectedRow).stringValue!)!
+        let table = notification.object as! NSTableView
+        let selection = table.selectedRow
         imgView.image = images[selection]
     }
     
@@ -64,6 +55,7 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         
         tableView.cell?.title = String(cameraOrder[row])
         return cameraOrder[row]
+        
     }
     
     func tableView(tableView: NSTableView, writeRowsWithIndexes rowIndexes: NSIndexSet, toPasteboard pboard: NSPasteboard) -> Bool {
@@ -84,29 +76,6 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         return .None
     }
     
-//    func tableView(tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableViewDropOperation) -> Bool {
-//        
-//        let data: NSData = info.draggingPasteboard().dataForType(NSGeneralPboard)!
-//        let rowIndexes: NSIndexSet = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! NSIndexSet
-//        let value: NSImage = images[rowIndexes.firstIndex]
-//        let sValue: String = numbers[rowIndexes.firstIndex]
-//        
-//        if rowIndexes.firstIndex < row {
-//            numbers.insert(sValue, atIndex: row)
-//            images.insert(value, atIndex: row)
-//            numbers.removeAtIndex(rowIndexes.firstIndex)
-//            images.removeAtIndex(rowIndexes.firstIndex)
-//        } else if rowIndexes.firstIndex > row {
-//            numbers.removeAtIndex(rowIndexes.firstIndex)
-//            images.removeAtIndex(rowIndexes.firstIndex)
-//            numbers.insert(sValue, atIndex: row)
-//            images.insert(value, atIndex: row)
-//        }
-//        
-//        tableView.reloadData()
-//        return true
-//    }
-    
     func tableView(tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableViewDropOperation) -> Bool {
         
         let data: NSData = info.draggingPasteboard().dataForType(NSGeneralPboard)!
@@ -116,9 +85,13 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         if rowIndexes.firstIndex < row {
             cameraOrder.insert(value, atIndex: row)
             cameraOrder.removeAtIndex(rowIndexes.firstIndex)
+            images.insert(images[value], atIndex: row)
+            images.removeAtIndex(rowIndexes.firstIndex)
         } else if rowIndexes.firstIndex > row {
             cameraOrder.removeAtIndex(rowIndexes.firstIndex)
             cameraOrder.insert(value, atIndex: row)
+            images.removeAtIndex(rowIndexes.firstIndex)
+            images.insert(images[value], atIndex: row)
         }
         
         tableView.reloadData()
@@ -130,6 +103,7 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
             let row = tableView.selectedRow
             let value: Int = cameraOrder[row]
             cameraOrder.insert(value, atIndex: row)
+            images.insert(images[value], atIndex: row)
             tableView.reloadData()
         } else {
             selectionAlert("Duplicate")
@@ -141,6 +115,7 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         if tableView.selectedRow != -1 {
             let row = tableView.selectedRow
             cameraOrder.removeAtIndex(row)
+            images.removeAtIndex(row)
             tableView.reloadData()
         } else {
             selectionAlert("Delete")
@@ -219,7 +194,7 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         selectedProfile.stringValue = "Default"
         cameraOrder = []
         for i in 0..<images.count {
-            cameraOrder.append(i)
+            cameraOrder.append(i+1)
         }
         cameraCount = cameraOrder.count
         tableView.reloadData()

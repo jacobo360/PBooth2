@@ -1163,7 +1163,7 @@
         <image name="aperture" width="67" height="66.720001220703125"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="C5k-ep-YkS"/>
         <segue reference="K6g-yV-91l"/>
+        <segue reference="XLj-Je-gQS"/>
     </inferredMetricsTieBreakers>
 </document>

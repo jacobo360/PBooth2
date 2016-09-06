@@ -8,9 +8,19 @@
 
 import Cocoa
 
+extension Dictionary where Value: Comparable {
+    var valueKeySorted: [(Key, Value)] {
+        return sort{ $0.1 > $1.1 }.sort{ String($0.0) < String($1.0) }
+    }
+//    // or sorting as suggested by Just Another Coder without using map
+//    var valueKeySorted2: [(Key, Value)] {
+//        return sort{ if $0.1 != $1.1 { return $0.1 > $1.1 } else { return String($0.0) < String($1.0) } }
+//    }
+}
+
 class MyCameras: NSViewController, NSTableViewDelegate, NSTableViewDataSource, NSTextFieldDelegate {
     
-    var cameraOrder: [String:Int] = [:]
+    var cameraOrder: [Int:String] = [:]
     var connectedCameras: [EOSCamera] = []
     var connectedUnsubscribed: [String] = []
     var cameraSerials: [String] = []
@@ -30,13 +40,13 @@ class MyCameras: NSViewController, NSTableViewDelegate, NSTableViewDataSource, N
     }
     
     func reconnect() {
-        if let orderArray = defaults.objectForKey("cameraOrder") as? [String:Int] {
+        if let orderArray = defaults.objectForKey("cameraOrder") as? [Int:String] {
             connectedUnsubscribed = []
             cameraOrder = orderArray
             //Append only unsubscribed cameras
             for i in 0..<connectedCameras.count {
                 let serial = cameraFunctionality().getSerials([connectedCameras[i]])[0]
-                if !cameraOrder.keys.contains(serial) {
+                if !cameraOrder.values.contains(serial) {
                     connectedUnsubscribed.append(serial)
                 } else {
                 }
@@ -56,7 +66,7 @@ class MyCameras: NSViewController, NSTableViewDelegate, NSTableViewDataSource, N
         let cell = tableView.makeViewWithIdentifier("Camera", owner: nil) as? NSTableCellView
         if tableColumn?.identifier == "Column0" {
             if row < cameraOrder.count {
-                cell?.textField?.stringValue = Array(cameraOrder.keys)[row]
+                cell?.textField?.stringValue = Array(cameraOrder.values)[row]
                 return cell
             } else {
                 cell?.textField?.stringValue = connectedUnsubscribed[row - cameraOrder.count]
@@ -102,34 +112,24 @@ class MyCameras: NSViewController, NSTableViewDelegate, NSTableViewDataSource, N
     
     func subscribeCamera(serial: String, tField: NSTextField) {
         
-        if let orderArray = defaults.objectForKey("cameraOrder") as? [String:Int] {
+        if let orderArray = defaults.objectForKey("cameraOrder") as? [Int:String] {
             cameraOrder = orderArray
-            if cameraOrder.values.contains(Int(tField.stringValue)!) || cameraOrder.keys.contains(serial) {
+            if cameraOrder.keys.contains(Int(tField.stringValue)!) {
                 tField.stringValue = ""
-                textFieldAlert("Error", mess: "Either the camera has already been subscribed, or the position is already taken")
+                textFieldAlert("Error", mess: "The position is already taken")
             } else {
-                cameraOrder[serial] = Int(tField.stringValue)!
-                let sorted = sortDict(cameraOrder)
-                print(sorted)
-                defaults.setObject(sorted, forKey: "cameraOrder")
+                cameraOrder[Int(tField.stringValue)!] = serial
+                defaults.setObject(cameraOrder, forKey: "cameraOrder")
                 reconnect()
             }
         
         } else {
-            let dict = [serial:Int(tField.stringValue)!]
+            let dict = [Int(tField.stringValue)!:serial]
             print(dict)
             defaults.setObject(dict, forKey: "cameraOrder")
             reconnect()
         }
         
-    }
-    
-    func sortDict(d: [String:Int]) -> [String:Int] {
-        var sorted: [String:Int] = [:]
-        for (k,v) in (Array(d).sort {$1.1 < $0.1}) {
-            sorted[k] = v
-        }
-        return sorted
     }
     
     func textFieldAlert(txt: String, mess: String) {

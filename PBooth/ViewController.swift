@@ -14,6 +14,7 @@ let PINK = NSColor(SRGBRed: 1.00, green:0.25, blue:0.51, alpha:1.0)
 class ViewController: NSViewController, EOSReadDataDelegate {
     
     var camArray: [EOSCamera] = []
+    let defaults = NSUserDefaults.standardUserDefaults()
     
     @IBOutlet weak var navView: NSView!
     @IBOutlet weak var cameraNumLbl: NSTextField!
