@@ -20,7 +20,7 @@ extension Dictionary where Value: Comparable {
 
 class MyCameras: NSViewController, NSTableViewDelegate, NSTableViewDataSource, NSTextFieldDelegate {
     
-    var cameraOrder: [Int:String] = [:]
+    var cameraOrder: [String:String] = [:]
     var connectedCameras: [EOSCamera] = []
     var connectedUnsubscribed: [String] = []
     var cameraSerials: [String] = []
@@ -35,12 +35,18 @@ class MyCameras: NSViewController, NSTableViewDelegate, NSTableViewDataSource, N
         self.view.wantsLayer = true
         self.view.layer?.backgroundColor = NSColor.whiteColor().CGColor
         
+//        cameraOrder["1"] = "123512"
+//        cameraOrder["2"] = "1231232"
+//        cameraOrder["3"] = "112512"
+//        cameraOrder["4"] = "1212081"
+//        defaults.setObject(cameraOrder, forKey: "cameraOrder")
+        
         //Set Up Connection
         reconnect()
     }
     
     func reconnect() {
-        if let orderArray = defaults.objectForKey("cameraOrder") as? [Int:String] {
+        if let orderArray = defaults.objectForKey("cameraOrder") as? [String:String] {
             connectedUnsubscribed = []
             cameraOrder = orderArray
             //Append only unsubscribed cameras
@@ -75,12 +81,10 @@ class MyCameras: NSViewController, NSTableViewDelegate, NSTableViewDataSource, N
             
         } else {
             if row < cameraOrder.count {
-                print(row)
-                print(String(Array(cameraOrder.values)[row]))
                 cell?.textField?.delegate = self
                 cell?.textField!.placeholderString = "Position Here"
                 cell!.textField!.editable = true
-                cell!.textField!.stringValue = String(Array(cameraOrder.values)[row])
+                cell!.textField!.stringValue = String(Array(cameraOrder.keys)[row])
                 return cell
             } else {
                 return cell
@@ -95,13 +99,25 @@ class MyCameras: NSViewController, NSTableViewDelegate, NSTableViewDataSource, N
         let i = tblView.rowForView(tField.superview as! NSTableCellView)
         
         if i >= 0 {
-            if Int(tField.stringValue) != nil && Int(tField.stringValue) >= 0 {
+            if Int(tField.stringValue) != nil && Int(tField.stringValue) > 0 {
                 let camSerial = (tblView.viewAtColumn(0, row: i, makeIfNecessary: false)?.subviews[0] as! NSTextField).stringValue
                 print(camSerial)
                 subscribeCamera(camSerial, tField: tField)
                 tblView.reloadData()
                 return true
+            } else if tField.stringValue == "0" {
+                if var orderArray = defaults.objectForKey("cameraOrder") as? [String:String] {
+                    if Array(orderArray.keys)[i] != nil {
+                        print("NOT NIL")
+                        textFieldAlert("Camera Unsubscibed", mess: "You have unsubscribed camera \(Array(orderArray.values)[i])")
+                        orderArray.removeValueForKey(Array(orderArray.keys)[i])
+                        defaults.setObject(orderArray, forKey: "cameraOrder")
+                    }
+                }
+                reconnect()
+                return false
             } else {
+                print("here")
                 tField.stringValue = ""
                 textFieldAlert("Isn't it obvious?", mess: "Please input a positive integer on the text field!")
                 tblView.reloadData()
@@ -112,20 +128,20 @@ class MyCameras: NSViewController, NSTableViewDelegate, NSTableViewDataSource, N
     
     func subscribeCamera(serial: String, tField: NSTextField) {
         
-        if let orderArray = defaults.objectForKey("cameraOrder") as? [Int:String] {
+        if let orderArray = defaults.objectForKey("cameraOrder") as? [String:String] {
             cameraOrder = orderArray
-            if cameraOrder.keys.contains(Int(tField.stringValue)!) {
+            if cameraOrder.keys.contains(tField.stringValue) {
                 tField.stringValue = ""
                 textFieldAlert("Error", mess: "The position is already taken")
             } else {
-                cameraOrder[Int(tField.stringValue)!] = serial
+                cameraOrder[tField.stringValue] = serial
                 defaults.setObject(cameraOrder, forKey: "cameraOrder")
                 reconnect()
             }
         
         } else {
-            let dict = [Int(tField.stringValue)!:serial]
-            print(dict)
+            let dict = [tField.stringValue:serial]
+            print("here \(dict)")
             defaults.setObject(dict, forKey: "cameraOrder")
             reconnect()
         }
@@ -141,6 +157,18 @@ class MyCameras: NSViewController, NSTableViewDelegate, NSTableViewDataSource, N
         let res = myPopup.runModal()
         
         if res == NSAlertFirstButtonReturn {
+        }
+    }
+    
+    @IBAction func deleteBtn(sender: AnyObject) {
+        if defaults.objectForKey("cameraOrder") != nil && tblView.selectedRow != -1 {
+            var orderArray = defaults.objectForKey("cameraOrder") as! [String:String]
+            if tblView.selectedRow < orderArray.count {
+                let tField = tblView.viewAtColumn(1, row: tblView.selectedRow, makeIfNecessary: false)!.viewWithTag(9) as! NSTextField
+                orderArray.removeValueForKey(tField.stringValue)
+                defaults.setObject(orderArray, forKey: "cameraOrder")
+                tblView.reloadData()
+            }
         }
     }
     

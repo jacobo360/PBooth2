@@ -882,10 +882,22 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableHeaderView>
                             </scrollView>
+                            <button hidden="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="sKb-jk-PaJ">
+                                <rect key="frame" x="185" y="1" width="80" height="32"/>
+                                <buttonCell key="cell" type="push" title="Delete" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="QcY-yG-ppk">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="deleteBtn:" target="EnD-6L-5oT" id="dvJ-iX-Y27"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="zDs-fe-HAn" secondAttribute="bottom" id="0pc-L1-bGr"/>
+                            <constraint firstAttribute="bottom" secondItem="sKb-jk-PaJ" secondAttribute="bottom" constant="8" id="YvF-gV-0XK"/>
+                            <constraint firstItem="sKb-jk-PaJ" firstAttribute="centerX" secondItem="LPc-O7-GcO" secondAttribute="centerX" id="eUg-eC-QuV"/>
                             <constraint firstItem="zDs-fe-HAn" firstAttribute="top" secondItem="LPc-O7-GcO" secondAttribute="top" id="m6x-kO-562"/>
+                            <constraint firstAttribute="bottom" secondItem="zDs-fe-HAn" secondAttribute="bottom" id="ojr-Pg-5uD"/>
                             <constraint firstAttribute="trailing" secondItem="zDs-fe-HAn" secondAttribute="trailing" id="rzl-Ho-LaF"/>
                             <constraint firstItem="zDs-fe-HAn" firstAttribute="leading" secondItem="LPc-O7-GcO" secondAttribute="leading" id="sQm-zr-drB"/>
                         </constraints>

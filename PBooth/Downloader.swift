@@ -33,9 +33,9 @@ class Downloader: NSViewController, EOSReadDataDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        if cameras.count == 0 {
-//            generalAlert("No cameras Detected", text: "There seems to be no cameras connected and turned on, please check the connection and try again")
-//        }
+        if cameras.count == 0 {
+            generalAlert("No cameras Detected", text: "There seems to be no cameras connected and turned on, please check the connection and try again")
+        }
         
         //Set up Design
         self.view.wantsLayer = true
@@ -44,13 +44,9 @@ class Downloader: NSViewController, EOSReadDataDelegate {
 
         for cam in cameras {
             let serial = cameraFunctionality().getSerial(self, camera: cam)
-            //let files: [EOSFile] = cameraFunctionality().getToFinalDirectory(cam)
-            //files.last!.readDataWithDelegate(self, contextInfo: serial)
+            let files: [EOSFile] = cameraFunctionality().getToFinalDirectory(cam)
+            files.last!.readDataWithDelegate(self, contextInfo: serial)
         }
-        let triggerTime = (Int64(NSEC_PER_SEC) * 1)
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, triggerTime), dispatch_get_main_queue(), { () -> Void in
-            self.orderPicturesAndSegue()
-        })
         
     }
     
@@ -59,35 +55,10 @@ class Downloader: NSViewController, EOSReadDataDelegate {
         files.last!.readDataWithDelegate(self, contextInfo: serial)
     }
     
-//    func didDownloadFile(file: EOSFile!, withOptions options: [NSObject : AnyObject]!, contextInfo: AnyObject!, error: NSError!) {
-//        
-//        var ocurrence = false
-//        
-//        //Need To Handle Error
-//        if error != nil && ocurrence == false {
-//            ocurrence = true
-//            generalAlert("Error", text: "An error ocurred while downloading a photography.")
-//        }
-//        
-//        if ocurrence == false {
-//            progress += 1
-//            if progress < cameras.count {
-//                progBar.doubleValue = Double(progress)/Double(cameras.count)
-//                if progress == 1 {progBar.startAnimation(self)}
-//                progLbl.stringValue = "Downloading Photography: \(String(progress+1))/\(String(cameras.count))"
-//            } else {
-//                //Set up order and profile before segue
-//                self.performSegueWithIdentifier("toTab", sender: self)
-//            }
-//        }
-//        
-//    }
-    
     func didReadData(data: NSData!, forFile file: EOSFile!, contextInfo: AnyObject!, error: NSError!) {
 
         var ocurrence = false
         
-        //Need To Handle Error
         if error != nil && ocurrence == false {
             ocurrence = true
             dict = [:]
@@ -125,7 +96,7 @@ class Downloader: NSViewController, EOSReadDataDelegate {
                     }
                 }
             } else {
-                //Alert that not all cameras are registered
+                sortAlert()
                 images = Array(dict.values)
             }
             
@@ -142,7 +113,7 @@ class Downloader: NSViewController, EOSReadDataDelegate {
             session.camMatch = cameraMatch
             session.pictures = dict
             myCams.connectedCameras = cameras
-            session.images = getImages()
+            session.images = images
         }
     }
     
@@ -163,7 +134,23 @@ class Downloader: NSViewController, EOSReadDataDelegate {
         let res = myPopup.runModal()
         
         if res == NSAlertFirstButtonReturn {
-            performSegueWithIdentifier("back", sender: self)
+            let triggerTime = (Int64(NSEC_PER_SEC) * 1)
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, triggerTime), dispatch_get_main_queue(), { () -> Void in
+                self.performSegueWithIdentifier("back", sender: self)
+            })
+        }
+    }
+    
+    func sortAlert() {
+        let myPopup: NSAlert = NSAlert()
+        myPopup.messageText = "Camera Registration"
+        myPopup.informativeText = "Not all of the currently connected cameras are registered, images will be sorted randomly"
+        myPopup.alertStyle = NSAlertStyle.WarningAlertStyle
+        myPopup.addButtonWithTitle("OK")
+        let res = myPopup.runModal()
+        
+        if res == NSAlertFirstButtonReturn {
+            
         }
     }
     
