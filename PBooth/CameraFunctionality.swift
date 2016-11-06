@@ -79,7 +79,8 @@ class cameraFunctionality {
         var serial = ""
         do {
             serial = try camera.stringValueForProperty(EOSProperty.SerialNumber)
-            delay(0.5) {
+            print("Serial: \(serial)")
+            delay(1) {
                 sender.getLastFile(camera, serial: serial)
             }
             return try camera.stringValueForProperty(EOSProperty.SerialNumber)

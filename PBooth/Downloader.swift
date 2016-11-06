@@ -49,8 +49,11 @@ class Downloader: NSViewController, EOSReadDataDelegate {
 
         for cam in cameras {
             let serial = cameraFunctionality().getSerial(self, camera: cam)
-            let files: [EOSFile] = cameraFunctionality().getToFinalDirectory(cam)
-            files.last!.readDataWithDelegate(self, contextInfo: serial)
+            
+            //Don't know why was duplicated, but erasing it fixed a problem with getting serials.
+//            let files: [EOSFile] = cameraFunctionality().getToFinalDirectory(cam)
+//            files.last!.readDataWithDelegate(self, contextInfo: serial)
+            
         }
         
     }
@@ -161,6 +164,15 @@ class Downloader: NSViewController, EOSReadDataDelegate {
         if res == NSAlertFirstButtonReturn {
             
         }
+    }
+    
+    func delay(delay:Double, closure:()->()) {
+        dispatch_after(
+            dispatch_time(
+                DISPATCH_TIME_NOW,
+                Int64(delay * Double(NSEC_PER_SEC))
+            ),
+            dispatch_get_main_queue(), closure)
     }
     
 }
