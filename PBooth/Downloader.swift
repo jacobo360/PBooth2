@@ -156,7 +156,7 @@ class Downloader: NSViewController, EOSReadDataDelegate {
     func sortAlert() {
         let myPopup: NSAlert = NSAlert()
         myPopup.messageText = "Camera Registration"
-        myPopup.informativeText = "Not all of the currently connected cameras are registered, images will be sorted randomly"
+        myPopup.informativeText = "Not all of the currently connected cameras are registered, images will be sorted in the order they were taken"
         myPopup.alertStyle = NSAlertStyle.Warning
         myPopup.addButtonWithTitle("OK")
         let res = myPopup.runModal()
