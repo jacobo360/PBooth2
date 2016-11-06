@@ -85,13 +85,13 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         if rowIndexes.firstIndex < row {
             cameraOrder.insert(value, atIndex: row)
             cameraOrder.removeAtIndex(rowIndexes.firstIndex)
-            images.insert(images[value], atIndex: row)
+            images.insert(images[rowIndexes.firstIndex], atIndex: row)
             images.removeAtIndex(rowIndexes.firstIndex)
         } else if rowIndexes.firstIndex > row {
             cameraOrder.removeAtIndex(rowIndexes.firstIndex)
             cameraOrder.insert(value, atIndex: row)
-            images.removeAtIndex(rowIndexes.firstIndex)
-            images.insert(images[value], atIndex: row)
+            images.insert(images[rowIndexes.firstIndex], atIndex: row)
+            images.removeAtIndex(rowIndexes.firstIndex + 1)
         }
         
         tableView.reloadData()
@@ -103,7 +103,7 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
             let row = tableView.selectedRow
             let value: Int = cameraOrder[row]
             cameraOrder.insert(value, atIndex: row)
-            images.insert(images[value], atIndex: row)
+            images.insert(images[row], atIndex: row)
             tableView.reloadData()
         } else {
             selectionAlert("Duplicate")
@@ -127,7 +127,7 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         a.messageText = "Change Default Profile"
         a.addButtonWithTitle("Done")
         a.addButtonWithTitle("Cancel")
-        a.alertStyle = NSAlertStyle.WarningAlertStyle
+        a.alertStyle = NSAlertStyle.Warning
         
         let dDown = NSPopUpButton(frame: NSRect(x: 0, y: 0, width: 200, height: 24))
         
@@ -168,7 +168,7 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         let myPopup: NSAlert = NSAlert()
         myPopup.messageText = "Can't \(activity)"
         myPopup.informativeText = "Please select a row on the table to \(activity.lowercaseString) it"
-        myPopup.alertStyle = NSAlertStyle.WarningAlertStyle
+        myPopup.alertStyle = NSAlertStyle.Warning
         myPopup.addButtonWithTitle("OK")
         let res = myPopup.runModal()
         
@@ -210,7 +210,7 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         let myPopup: NSAlert = NSAlert()
         myPopup.messageText = "Setting the Default Profile"
         myPopup.informativeText = text
-        myPopup.alertStyle = NSAlertStyle.WarningAlertStyle
+        myPopup.alertStyle = NSAlertStyle.Warning
         myPopup.addButtonWithTitle("OK")
         let res = myPopup.runModal()
         

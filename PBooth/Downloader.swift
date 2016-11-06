@@ -30,6 +30,11 @@ class Downloader: NSViewController, EOSReadDataDelegate {
     @IBOutlet weak var progLbl: NSTextField!
     @IBOutlet weak var spinner: NSProgressIndicator!
     
+    override func viewDidAppear() {
+        //FOR TRIAL PURPOSES
+        //self.performSegueWithIdentifier("mientras", sender: self)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -114,6 +119,10 @@ class Downloader: NSViewController, EOSReadDataDelegate {
             session.pictures = dict
             myCams.connectedCameras = cameras
             session.images = images
+        } else if segue.identifier == "mientras" {
+            let dVC = segue.destinationController as! TabView
+            let session = dVC.childViewControllers[0] as! MySession
+            session.images = [NSImage(named: "1")!, NSImage(named: "2")!, NSImage(named: "3")!, NSImage(named: "4")!]
         }
     }
     
@@ -129,7 +138,7 @@ class Downloader: NSViewController, EOSReadDataDelegate {
         let myPopup: NSAlert = NSAlert()
         myPopup.messageText = question
         myPopup.informativeText = text
-        myPopup.alertStyle = NSAlertStyle.WarningAlertStyle
+        myPopup.alertStyle = NSAlertStyle.Warning
         myPopup.addButtonWithTitle("OK")
         let res = myPopup.runModal()
         
@@ -145,7 +154,7 @@ class Downloader: NSViewController, EOSReadDataDelegate {
         let myPopup: NSAlert = NSAlert()
         myPopup.messageText = "Camera Registration"
         myPopup.informativeText = "Not all of the currently connected cameras are registered, images will be sorted randomly"
-        myPopup.alertStyle = NSAlertStyle.WarningAlertStyle
+        myPopup.alertStyle = NSAlertStyle.Warning
         myPopup.addButtonWithTitle("OK")
         let res = myPopup.runModal()
         

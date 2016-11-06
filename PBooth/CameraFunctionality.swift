@@ -95,7 +95,7 @@ class cameraFunctionality {
         let myPopup: NSAlert = NSAlert()
         myPopup.messageText = question
         myPopup.informativeText = text
-        myPopup.alertStyle = NSAlertStyle.WarningAlertStyle
+        myPopup.alertStyle = NSAlertStyle.Warning
         myPopup.addButtonWithTitle("OK")
         let res = myPopup.runModal()
         

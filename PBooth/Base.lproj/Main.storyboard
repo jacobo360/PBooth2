@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="16A294a" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16A320" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11201"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="stacking Non-gravity area distributions on NSStackView" minToolsVersion="7.0" minSystemVersion="10.11"/>
+        <capability name="system font weights other than Regular or Bold" minToolsVersion="7.0"/>
     </dependencies>
     <scenes>
         <!--Application-->
@@ -579,6 +580,7 @@
                         <outlet property="spinner" destination="gKz-nq-7QH" id="dUi-XD-46l"/>
                         <segue destination="J9E-f6-snV" kind="custom" identifier="toTab" customClass="ReplaceSegue" customModule="PBooth" customModuleProvider="target" id="XLj-Je-gQS"/>
                         <segue destination="52H-1e-Oxe" kind="custom" identifier="back" customClass="ReplaceSegue" customModule="PBooth" customModuleProvider="target" id="K6g-yV-91l"/>
+                        <segue destination="J9E-f6-snV" kind="custom" identifier="mientras" customClass="ReplaceSegue" customModule="PBooth" customModuleProvider="target" id="875-uC-Llg"/>
                     </connections>
                 </viewController>
                 <customObject id="0vz-7A-jwg" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
@@ -632,7 +634,6 @@
                                             </connections>
                                         </tableView>
                                     </subviews>
-                                    <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </clipView>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="153" id="0hQ-31-k7t"/>
@@ -867,7 +868,6 @@
                                             </connections>
                                         </tableView>
                                     </subviews>
-                                    <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </clipView>
                                 <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="HAl-1W-7R9">
                                     <rect key="frame" x="1" y="283" width="448" height="16"/>
@@ -963,7 +963,6 @@
                                             </connections>
                                         </tableView>
                                     </subviews>
-                                    <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </clipView>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="164" id="yHL-7U-JSL"/>
@@ -1015,7 +1014,6 @@
                                             </connections>
                                         </tableView>
                                     </subviews>
-                                    <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </clipView>
                                 <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="gmb-fp-UJZ">
                                     <rect key="frame" x="1" y="8" width="0.0" height="15"/>
@@ -1175,7 +1173,7 @@
         <image name="aperture" width="67" height="66.720001220703125"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="875-uC-Llg"/>
         <segue reference="K6g-yV-91l"/>
-        <segue reference="XLj-Je-gQS"/>
     </inferredMetricsTieBreakers>
 </document>

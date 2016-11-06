@@ -38,7 +38,7 @@ class ViewController: NSViewController, EOSReadDataDelegate {
     func go() {
         //Get Cameras
         camArray = cameraFunctionality().getCamsWithOpenSession(self)
-        //print(camArray)
+        print(camArray)
         startBtn.hidden = false
     }
     

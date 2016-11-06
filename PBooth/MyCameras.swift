@@ -87,6 +87,11 @@ class MyCameras: NSViewController, NSTableViewDelegate, NSTableViewDataSource, N
                 cell!.textField!.stringValue = String(Array(cameraOrder.keys)[row])
                 return cell
             } else {
+                cell?.textField?.delegate = self
+                cell?.textField!.placeholderString = "Position Here"
+                cell!.textField!.editable = true
+                //careful with this one.. might affect subscribed cameras
+                cell!.textField!.stringValue = ""
                 return cell
             }
             
@@ -94,22 +99,35 @@ class MyCameras: NSViewController, NSTableViewDelegate, NSTableViewDataSource, N
     }
     
     func control(control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
-        print("textEndEditing")
         let tField = control as! NSTextField
         let i = tblView.rowForView(tField.superview as! NSTableCellView)
         
         if i >= 0 {
             if Int(tField.stringValue) != nil && Int(tField.stringValue) > 0 {
+                let thisCam = (tblView.viewAtColumn(1, row: i, makeIfNecessary: false)?.subviews[0] as! NSTextField).stringValue
                 let camSerial = (tblView.viewAtColumn(0, row: i, makeIfNecessary: false)?.subviews[0] as! NSTextField).stringValue
-                print(camSerial)
+                
+                //If camera exists, erase previous and input new)
+                if var orderArray = defaults.objectForKey("cameraOrder") as? [String:String] {
+                    if orderArray.values.contains(camSerial) {
+                        
+                        //remove all keys with value camSerial
+                        for key in (orderArray as NSDictionary).allKeysForObject(camSerial) {
+                            orderArray.removeValueForKey(key as! String)
+                        }
+                        
+                        defaults.setObject(orderArray, forKey: "cameraOrder")
+                        tblView.reloadData()
+                    }
+                }
+                
                 subscribeCamera(camSerial, tField: tField)
                 tblView.reloadData()
                 return true
             } else if tField.stringValue == "0" {
                 if var orderArray = defaults.objectForKey("cameraOrder") as? [String:String] {
                     if Array(orderArray.keys)[i] != nil {
-                        print("NOT NIL")
-                        textFieldAlert("Camera Unsubscibed", mess: "You have unsubscribed camera \(Array(orderArray.values)[i])")
+                        textFieldAlert("Camera Unsubscribed", mess: "You have unsubscribed camera \(Array(orderArray.values)[i])")
                         orderArray.removeValueForKey(Array(orderArray.keys)[i])
                         defaults.setObject(orderArray, forKey: "cameraOrder")
                     }
@@ -117,7 +135,6 @@ class MyCameras: NSViewController, NSTableViewDelegate, NSTableViewDataSource, N
                 reconnect()
                 return false
             } else {
-                print("here")
                 tField.stringValue = ""
                 textFieldAlert("Isn't it obvious?", mess: "Please input a positive integer on the text field!")
                 tblView.reloadData()
@@ -141,7 +158,6 @@ class MyCameras: NSViewController, NSTableViewDelegate, NSTableViewDataSource, N
         
         } else {
             let dict = [tField.stringValue:serial]
-            print("here \(dict)")
             defaults.setObject(dict, forKey: "cameraOrder")
             reconnect()
         }
@@ -152,7 +168,7 @@ class MyCameras: NSViewController, NSTableViewDelegate, NSTableViewDataSource, N
         let myPopup: NSAlert = NSAlert()
         myPopup.messageText = txt
         myPopup.informativeText = mess
-        myPopup.alertStyle = NSAlertStyle.WarningAlertStyle
+        myPopup.alertStyle = NSAlertStyle.Warning
         myPopup.addButtonWithTitle("OK")
         let res = myPopup.runModal()
         

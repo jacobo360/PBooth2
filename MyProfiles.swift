@@ -191,7 +191,7 @@ class MyProfiles: NSViewController, NSTableViewDelegate, NSTableViewDataSource, 
         msg.addButtonWithTitle("Cancel")
         msg.messageText = title
         msg.informativeText = question
-        msg.alertStyle = NSAlertStyle.InformationalAlertStyle
+        msg.alertStyle = NSAlertStyle.Informational
         
         let txt = NSTextField(frame: NSRect(x: 0, y: 0, width: 200, height: 24))
         txt.stringValue = defaultValue
@@ -228,7 +228,7 @@ class MyProfiles: NSViewController, NSTableViewDelegate, NSTableViewDataSource, 
         let myPopup: NSAlert = NSAlert()
         myPopup.messageText = "Isn't it obvious?"
         myPopup.informativeText = "Please input a positive integer on the text field!"
-        myPopup.alertStyle = NSAlertStyle.WarningAlertStyle
+        myPopup.alertStyle = NSAlertStyle.Warning
         myPopup.addButtonWithTitle("OK")
         let res = myPopup.runModal()
         
@@ -241,7 +241,7 @@ class MyProfiles: NSViewController, NSTableViewDelegate, NSTableViewDataSource, 
         let myPopup: NSAlert = NSAlert()
         myPopup.messageText = "Can't \(activity)"
         myPopup.informativeText = "Please select a row on the table to \(activity.lowercaseString) it"
-        myPopup.alertStyle = NSAlertStyle.WarningAlertStyle
+        myPopup.alertStyle = NSAlertStyle.Warning
         myPopup.addButtonWithTitle("OK")
         let res = myPopup.runModal()
         
