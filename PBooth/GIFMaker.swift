@@ -13,8 +13,9 @@ class GIFMaker {
     
     func createGIF(with images: [NSImage], loopCount: Int = 0, frameDelay: Double) {
         
-        let destinationURL = NSURL(fileURLWithPath: "/Users/jacobokoenig/Desktop/")
-        let destinationGIF = CGImageDestinationCreateWithURL(destinationURL, kUTTypeGIF, images.count, nil)!
+        print("you have \(images.count) images")
+        let destinationURL = NSURL(fileURLWithPath: "/Users/jacobokoenig/Desktop/GIF").URLByAppendingPathComponent("animated.gif")
+        let destinationGIF = CGImageDestinationCreateWithURL(destinationURL!, kUTTypeGIF, images.count, nil)!
         
         // The final size of your GIF. This is an optional parameter
         //var rect = NSMakeRect(0, 0, 350, 250)
@@ -22,7 +23,7 @@ class GIFMaker {
         // This dictionary controls the delay between frames
         // If you don't specify this, CGImage will apply a default delay
         let properties = [
-            (kCGImagePropertyGIFDictionary as String): [(kCGImagePropertyGIFDelayTime as String): 1.0/16.0]
+            (kCGImagePropertyGIFDictionary as String): [(kCGImagePropertyGIFDelayTime as String): frameDelay]
         ]
         
         

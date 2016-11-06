@@ -30,8 +30,6 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         self.view.layer?.backgroundColor = NSColor.whiteColor().CGColor
         tableView.registerForDraggedTypes([NSGeneralPboard])
         
-        //GIFMaker().createGIF(with: images, frameDelay: 0.2)
-        
         //Set Up Selected Profile
         restartProfile()
     }
@@ -39,6 +37,8 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
     override func viewDidAppear() {
         let win = self.view.window
         win!.setFrame(NSMakeRect(win!.frame.minX, win!.frame.minY, win!.frame.width, win!.frame.height+1), display: true)
+        
+        
     }
     
     func tableViewSelectionDidChange(notification: NSNotification) {
@@ -164,6 +164,8 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         })
     }
     
+    
+    
     func selectionAlert(activity: String) {
         let myPopup: NSAlert = NSAlert()
         myPopup.messageText = "Can't \(activity)"
@@ -217,6 +219,11 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         if res == NSAlertFirstButtonReturn {
             defaultProfile()
         }
+    }
+
+    @IBAction func exportGIF(sender: NSButton) {
+        print("here")
+        GIFMaker().createGIF(with: images, frameDelay: 0.2)
     }
     
 }
