@@ -32,14 +32,14 @@ class Downloader: NSViewController, EOSReadDataDelegate {
     
     override func viewDidAppear() {
         //FOR TRIAL PURPOSES
-        //self.performSegueWithIdentifier("mientras", sender: self)
+        self.performSegueWithIdentifier("mientras", sender: self)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         if cameras.count == 0 {
-            generalAlert("No cameras Detected", text: "There seems to be no cameras connected and turned on, please check the connection and try again")
+//            generalAlert("No cameras Detected", text: "There seems to be no cameras connected and turned on, please check the connection and try again")
         }
         
         //Set up Design

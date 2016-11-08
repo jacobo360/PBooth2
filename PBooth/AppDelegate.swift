@@ -37,15 +37,15 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         }
     }
     
-//    @IBAction func exportGIF(sender: AnyObject) {
-//        if let window = NSApplication.sharedApplication().mainWindow {
-//            if let vc = window.contentViewController as? MySession {
-//                print("no, here")
-//                vc.exportGIF()
-//                
-//            }
-//        }
-//    }
+    @IBAction func expGIF(sender: AnyObject) {
+        if let window = NSApplication.sharedApplication().mainWindow {
+            if let viewController = window.contentViewController?.childViewControllers[0] as? MySession {
+                print("correct vc")
+                viewController.expGIF()
+                
+            }
+        }
+    }
     
 
 }

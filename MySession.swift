@@ -221,9 +221,13 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         }
     }
 
-    @IBAction func exportGIF(sender: NSButton) {
+    func expGIF() {
         print("here")
         GIFMaker().createGIF(with: images, frameDelay: 0.2)
+    }
+    
+    @IBAction func exportGIF(sender: NSButton) {
+        expGIF()
     }
     
 }
