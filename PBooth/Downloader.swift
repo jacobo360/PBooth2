@@ -39,7 +39,7 @@ class Downloader: NSViewController, EOSReadDataDelegate {
         super.viewDidLoad()
         
         if cameras.count == 0 {
-//            generalAlert("No cameras Detected", text: "There seems to be no cameras connected and turned on, please check the connection and try again")
+            //generalAlert("No cameras Detected", text: "There seems to be no cameras connected and turned on, please check the connection and try again")
         }
         
         //Set up Design
@@ -91,19 +91,42 @@ class Downloader: NSViewController, EOSReadDataDelegate {
         images = []
         
         //Set up order before segueing.
-        if let orderArray = defaults.objectForKey("cameraOrder") as? [Int:String] {
+        if let orderArray = defaults.objectForKey("cameraOrder") as? [String:String] {
             
             //Check all cameras connected are registered
             //Check all serials are contained
             let listCurrent = NSSet(array: Array(dict.keys))
             let listRegistered = NSSet(array: Array(orderArray.values))
+            
+            print(listCurrent)
+            print(listRegistered)
+            
             if listCurrent.isSubsetOfSet(listRegistered as Set<NSObject>) {
-                for i in orderArray.keys.sort(<) {
+                print("ALL CURRENT CAMERAS ARE REGISTERED")
+                
+                //Sort numerically
+                    //Make into Int
+                var arrayInNum: [Int] = []
+                for el in Array(orderArray.keys) {
+                    arrayInNum.append(Int(el)!)
+                }
+                    //Order
+                let a = Array(arrayInNum).sort{$0 < $1}
+                    //Make into Int
+                var arrayInSt: [String] = []
+                for el2 in a {
+                    arrayInSt.append(el2.description)
+                }
+                print("Sorted Array: \(arrayInSt)")
+                
+                for i in arrayInSt {
+//                    print(dict[orderArray[i]!]!)
                     if dict[orderArray[i]!] != nil {
                         images.append(dict[orderArray[i]!]!)
                     }
                 }
             } else {
+                print("Cameras not registered")
                 sortAlert()
                 images = Array(dict.values)
             }

@@ -63,12 +63,13 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="File" id="bib-Uj-vzu">
                                     <items>
-                                        <menuItem title="New Session" keyEquivalent="n" id="Was-JA-tGl">
+                                        <menuItem title="Restart &amp; Reconnect" keyEquivalent="n" id="Was-JA-tGl">
                                             <connections>
-                                                <action selector="newSession:" target="Voe-Tx-rLC" id="0QM-ry-efl"/>
+                                                <action selector="restart:" target="Voe-Tx-rLC" id="v7v-uN-Jen"/>
                                                 <segue destination="jGA-0Y-lOj" kind="show" id="j4g-j7-d60"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="New Session" keyEquivalent="N" id="hsp-bh-gCI"/>
                                         <menuItem isSeparatorItem="YES" id="m54-Is-iLE"/>
                                         <menuItem title="Export GIF" keyEquivalent="p" id="aTl-1u-JFS">
                                             <connections>
@@ -908,7 +909,7 @@
         <image name="aperture" width="67" height="66.720001220703125"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="875-uC-Llg"/>
         <segue reference="K6g-yV-91l"/>
+        <segue reference="C5k-ep-YkS"/>
     </inferredMetricsTieBreakers>
 </document>

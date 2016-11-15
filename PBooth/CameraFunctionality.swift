@@ -12,7 +12,6 @@ class cameraFunctionality {
     
     //Get Cameras and Open its Session
     func getCamsWithOpenSession(vc: ViewController) -> [EOSCamera] {
-        print("getting cams")
         var cameras: [EOSCamera] = []
         let cameraList = EOSManager.sharedManager().getCameras()
         

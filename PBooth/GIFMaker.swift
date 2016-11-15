@@ -11,11 +11,12 @@ import ImageIO
 
 class GIFMaker {
     
-    func createGIF(with images: [NSImage], loopCount: Int = 0, frameDelay: Double) {
+    func createGIF(with images: [NSImage], name: NSURL, loopCount: Int = 0, frameDelay: Double) {
         
         print("you have \(images.count) images")
-        let destinationURL = NSURL(fileURLWithPath: "/Users/jacobokoenig/Desktop/GIF").URLByAppendingPathComponent("animated.gif")
-        let destinationGIF = CGImageDestinationCreateWithURL(destinationURL!, kUTTypeGIF, images.count, nil)!
+        let destinationURL = name
+//        let destinationURL = NSURL(fileURLWithPath: "/Users/Jason/Documents/GIFS").URLByAppendingPathComponent("\(name).gif")
+        let destinationGIF = CGImageDestinationCreateWithURL(destinationURL, kUTTypeGIF, images.count, nil)!
         
         // The final size of your GIF. This is an optional parameter
         //var rect = NSMakeRect(0, 0, 350, 250)
