@@ -51,7 +51,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
                     let saveUrl = dlg.URL
                     
                     // archive the dictionary and save to the file path
-                    viewController.expGIF((saveUrl?.URLByAppendingPathExtension(dlg.nameFieldStringValue))!)
+                    viewController.expGIF((saveUrl?.URLByAppendingPathExtension("gif"))!)
                 }
                 
 //                let msg = NSAlert()
