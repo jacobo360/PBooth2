@@ -21,19 +21,37 @@ class cameraFunctionality {
             
             do {
                 //openSession might be instance dependant (cant be called from another class)
-                if !cam.isOpen {
+                //if !cam.isOpen {
                     try cam.openSession()
                     cameras.append(cam)
-                    vc.cameraNumLbl.stringValue = "There are \(cameras.count) cameras connected"
-                }
+//                } else {
+//                    cameras.append(cam)
+//                }
             } catch {
-                generalAlert("Could not open session on camera \(camera.index)", text: "Please restart the program to load cameras again")
+                generalAlert("Could not open session on camera \(camera.index + 1)", text: "Please restart the program to load cameras again")
             }
         }
-        
+        vc.cameraNumLbl.stringValue = "There are \(cameras.count) cameras connected"
         return cameras
     }
     
+    func closeSession() {
+        
+        let cameraList = EOSManager.sharedManager().getCameras()
+        
+        for camera in cameraList {
+            
+            let cam = camera as! EOSCamera
+            
+            do {
+                if cam.isOpen {
+                    try cam.closeSession()
+                }
+            } catch {
+                generalAlert("Camera \(camera.index + 1)", text: "Something happened when closing session")
+            }
+        }
+    }
     
     //Get final Directory with photos
     func getToFinalDirectory(cam: EOSCamera) -> [EOSFile] {

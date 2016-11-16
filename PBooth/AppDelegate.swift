@@ -77,6 +77,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     }
     
     @IBAction func restart(sender: AnyObject) {
+        //cameraFunctionality().closeSession()
         if let current = NSApplication.sharedApplication().mainWindow {
             let win = NSWindow(contentRect: current.frame,
                            styleMask: NSResizableWindowMask,

@@ -43,7 +43,19 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
     
     func tableViewSelectionDidChange(notification: NSNotification) {
         let table = notification.object as! NSTableView
-        let selection = table.selectedRow
+        
+        //check to see if we have custom profile to use camera order for image in position
+        var selection: Int = 0
+        
+        if let data = defaults.objectForKey("selectedProfile") as? NSData {
+            let profile = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! SessionProfile
+            self.selectedProfile.stringValue = profile.name
+            cameraOrder = profile.cameraOrder
+            selection = cameraOrder[table.selectedRow]
+        } else {
+            selection = table.selectedRow
+        }
+        
         imgView.image = images[selection]
     }
     
