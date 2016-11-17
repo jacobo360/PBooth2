@@ -99,9 +99,6 @@ class Downloader: NSViewController, EOSReadDataDelegate {
             let listCurrent = NSSet(array: Array(dict.keys))
             let listRegistered = NSSet(array: Array(orderArray.values))
             
-            print(listCurrent)
-            print(listRegistered)
-            
             if listCurrent.isSubsetOfSet(listRegistered as Set<NSObject>) {
                 print("ALL CURRENT CAMERAS ARE REGISTERED")
                 

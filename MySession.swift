@@ -40,7 +40,7 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         win!.setFrame(NSMakeRect(win!.frame.minX, win!.frame.minY, win!.frame.width, win!.frame.height+1), display: true)
         
         //Close sessions if open
-        //cameraFunctionality().closeS()
+        cameraFunctionality().closeS()
     }
     
     func tableViewSelectionDidChange(notification: NSNotification) {
@@ -56,7 +56,7 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
             cameraOrder = profile.cameraOrder
             selection = cameraOrder[table.selectedRow]
         } else {
-            selection = table.selectedRow
+            selection = table.selectedRow + 1
         }
         print(selection)
         imgView.image = images[selection - 1]

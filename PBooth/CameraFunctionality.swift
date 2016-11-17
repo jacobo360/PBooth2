@@ -36,7 +36,6 @@ class cameraFunctionality {
     }
     
     func closeS() {
-        print("HERE")
         let cameraList = EOSManager.sharedManager().getCameras()
         
         for camera in cameraList {
