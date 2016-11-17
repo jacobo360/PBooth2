@@ -46,21 +46,21 @@ class MyCameras: NSViewController, NSTableViewDelegate, NSTableViewDataSource, N
     }
     
     func reconnect() {
-        if let orderArray = defaults.objectForKey("cameraOrder") as? [String:String] {
-            connectedUnsubscribed = []
-            cameraOrder = orderArray
-            //Append only unsubscribed cameras
-            for i in 0..<connectedCameras.count {
-                let serial = cameraFunctionality().getSerials([connectedCameras[i]])[0]
-                if !cameraOrder.values.contains(serial) {
-                    connectedUnsubscribed.append(serial)
-                } else {
-                }
-            }
-        } else {
-            connectedUnsubscribed = cameraFunctionality().getSerials(connectedCameras)
-        }
-        tblView.reloadData()
+//        if let orderArray = defaults.objectForKey("cameraOrder") as? [String:String] {
+//            connectedUnsubscribed = []
+//            cameraOrder = orderArray
+//            //Append only unsubscribed cameras
+//            for i in 0..<connectedCameras.count {
+//                let serial = cameraFunctionality().getSerials([connectedCameras[i]])[0]
+//                if !cameraOrder.values.contains(serial) {
+//                    connectedUnsubscribed.append(serial)
+//                } else {
+//                }
+//            }
+//        } else {
+//            connectedUnsubscribed = cameraFunctionality().getSerials(connectedCameras)
+//        }
+//        tblView.reloadData()
     }
     
     func numberOfRowsInTableView(tableView: NSTableView) -> Int {

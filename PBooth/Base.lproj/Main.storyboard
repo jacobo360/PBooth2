@@ -320,7 +320,7 @@
                 </viewController>
                 <customObject id="0vz-7A-jwg" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-522" y="283"/>
+            <point key="canvasLocation" x="-609" y="276"/>
         </scene>
         <!--My Session-->
         <scene sceneID="Ita-Dh-2cd">
@@ -908,7 +908,7 @@
         <image name="aperture" width="67" height="66.720001220703125"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="K6g-yV-91l"/>
         <segue reference="C5k-ep-YkS"/>
+        <segue reference="K6g-yV-91l"/>
     </inferredMetricsTieBreakers>
 </document>

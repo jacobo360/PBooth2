@@ -33,6 +33,9 @@ class Downloader: NSViewController, EOSReadDataDelegate {
     override func viewDidAppear() {
         //FOR TRIAL PURPOSES
         //self.performSegueWithIdentifier("mientras", sender: self)
+        
+        progress = 0
+        dict = [:]
     }
     
     override func viewDidLoad() {
@@ -48,7 +51,6 @@ class Downloader: NSViewController, EOSReadDataDelegate {
         spinner.startAnimation(self)
 
         for cam in cameras {
-            print(cam)
             let serial = cameraFunctionality().getSerial(self, camera: cam)
             
             //Don't know why was duplicated, but erasing it fixed a problem with getting serials.

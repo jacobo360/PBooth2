@@ -9,9 +9,10 @@
 import Cocoa
 
 @NSApplicationMain
-class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, EOSCameraDelegate {
 
     let manager: EOSManager = EOSManager.sharedManager()
+    var showingAlert: Bool = false
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         // Insert code here to initialize your application
@@ -134,6 +135,33 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
             
             win.contentViewController = Downloader()
             win.makeKeyAndOrderFront(win)
+        }
+    }
+    
+    func camera(camera: EOSCamera!, didCreateFile file: EOSFile!) {
+        
+        newPicsAlert()
+        
+        do {
+            try print(file.info().name)
+        } catch {
+            print("ERROR PRINTING NAME")
+        }
+    
+    
+    }
+    
+    func newPicsAlert() {
+        showingAlert = true
+        let myPopup: NSAlert = NSAlert()
+        myPopup.messageText = "Pictures taken"
+        myPopup.informativeText = "A new set is ready for download"
+        myPopup.alertStyle = NSAlertStyle.Warning
+        myPopup.addButtonWithTitle("OK")
+        let res = myPopup.runModal()
+        
+        if res == NSAlertFirstButtonReturn {
+            showingAlert = false
         }
     }
     

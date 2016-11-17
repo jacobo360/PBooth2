@@ -23,8 +23,10 @@ class cameraFunctionality {
                 //openSession might be instance dependant (cant be called from another class)
                 if !cam.isOpen {
                     try cam.openSession()
+                    cam.setDelegate(NSApplication.sharedApplication().delegate as! AppDelegate)
                     cameras.append(cam)
                 } else {
+                    cam.setDelegate(NSApplication.sharedApplication().delegate as! AppDelegate)
                     cameras.append(cam)
                 }
             } catch {
@@ -82,17 +84,17 @@ class cameraFunctionality {
         return file.last!
     }
     
-    func getSerials(cameras: [EOSCamera]) -> [String] {
-        var cameraSerials: [String] = []
-        for camera in cameras {
-            do {
-                try cameraSerials.append(camera.stringValueForProperty(EOSProperty.SerialNumber))
-            } catch {
-                print("Error getting serial number")
-            }
-        }
-        return cameraSerials
-    }
+//    func getSerials(cameras: [EOSCamera]) -> [String] {
+//        var cameraSerials: [String] = []
+//        for camera in cameras {
+//            do {
+//                try cameraSerials.append(camera.stringValueForProperty(EOSProperty.SerialNumber))
+//            } catch {
+//                print("Error getting serial number")
+//            }
+//        }
+//        return cameraSerials
+//    }
     
     func getSerial(sender: Downloader, camera: EOSCamera) -> String {
         var serial = ""

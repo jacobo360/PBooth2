@@ -40,7 +40,7 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         win!.setFrame(NSMakeRect(win!.frame.minX, win!.frame.minY, win!.frame.width, win!.frame.height+1), display: true)
         
         //Close sessions if open
-        cameraFunctionality().closeS()
+        //cameraFunctionality().closeS()
     }
     
     func tableViewSelectionDidChange(notification: NSNotification) {
