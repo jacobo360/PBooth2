@@ -21,14 +21,15 @@ class cameraFunctionality {
             
             do {
                 //openSession might be instance dependant (cant be called from another class)
-                //if !cam.isOpen {
+                if !cam.isOpen {
+                    //print(camera.index + 1)
                     try cam.openSession()
                     cameras.append(cam)
-//                } else {
-//                    cameras.append(cam)
-//                }
+                } else {
+                    cameras.append(cam)
+                }
             } catch {
-                generalAlert("Could not open session on camera \(camera.index + 1)", text: "Please restart the program to load cameras again")
+                generalAlert("Could not open session on camera \(camera.index)", text: "Please restart the program to load cameras again")
             }
         }
         vc.cameraNumLbl.stringValue = "There are \(cameras.count) cameras connected"

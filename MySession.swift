@@ -29,6 +29,7 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         self.view.wantsLayer = true
         self.view.layer?.backgroundColor = NSColor.whiteColor().CGColor
         tableView.registerForDraggedTypes([NSGeneralPboard])
+        tableView.allowsColumnSelection = false
         
         //Set Up Selected Profile
         restartProfile()
@@ -42,6 +43,7 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
     }
     
     func tableViewSelectionDidChange(notification: NSNotification) {
+        //print(images)
         let table = notification.object as! NSTableView
         
         //check to see if we have custom profile to use camera order for image in position
@@ -55,8 +57,12 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         } else {
             selection = table.selectedRow
         }
+        print(selection)
+        imgView.image = images[selection - 1]
+    }
+    
+    func tableView(tableView: NSTableView, sortDescriptorsDidChange oldDescriptors: [NSSortDescriptor]) {
         
-        imgView.image = images[selection]
     }
     
     func numberOfRowsInTableView(tableView: NSTableView) -> Int {

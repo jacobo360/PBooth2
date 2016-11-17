@@ -48,6 +48,7 @@ class Downloader: NSViewController, EOSReadDataDelegate {
         spinner.startAnimation(self)
 
         for cam in cameras {
+            print(cam)
             let serial = cameraFunctionality().getSerial(self, camera: cam)
             
             //Don't know why was duplicated, but erasing it fixed a problem with getting serials.
