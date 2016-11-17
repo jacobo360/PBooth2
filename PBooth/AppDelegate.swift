@@ -13,6 +13,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, EOSCameraD
 
     let manager: EOSManager = EOSManager.sharedManager()
     var showingAlert: Bool = false
+    var cameraList: [EOSCamera]?
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         // Insert code here to initialize your application
@@ -152,17 +153,22 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, EOSCameraD
     }
     
     func newPicsAlert() {
-        showingAlert = true
-        let myPopup: NSAlert = NSAlert()
-        myPopup.messageText = "Pictures taken"
-        myPopup.informativeText = "A new set is ready for download"
-        myPopup.alertStyle = NSAlertStyle.Warning
-        myPopup.addButtonWithTitle("OK")
-        let res = myPopup.runModal()
         
-        if res == NSAlertFirstButtonReturn {
-            showingAlert = false
+        //IF NOT SHOWING AN ALERT, SHOW AN ALERT
+        if !showingAlert {
+            showingAlert = true
+            let myPopup: NSAlert = NSAlert()
+            myPopup.messageText = "Pictures taken"
+            myPopup.informativeText = "A new set is ready for download"
+            myPopup.alertStyle = NSAlertStyle.Warning
+            myPopup.addButtonWithTitle("OK")
+            let res = myPopup.runModal()
+        
+            if res == NSAlertFirstButtonReturn {
+                showingAlert = false
+            }
         }
+        
     }
     
 }

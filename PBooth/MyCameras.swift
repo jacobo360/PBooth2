@@ -35,32 +35,26 @@ class MyCameras: NSViewController, NSTableViewDelegate, NSTableViewDataSource, N
         self.view.wantsLayer = true
         self.view.layer?.backgroundColor = NSColor.whiteColor().CGColor
         
-//        cameraOrder["1"] = "123512"
-//        cameraOrder["2"] = "1231232"
-//        cameraOrder["3"] = "112512"
-//        cameraOrder["4"] = "1212081"
-//        defaults.setObject(cameraOrder, forKey: "cameraOrder")
-        
         //Set Up Connection
         reconnect()
     }
     
     func reconnect() {
-//        if let orderArray = defaults.objectForKey("cameraOrder") as? [String:String] {
-//            connectedUnsubscribed = []
-//            cameraOrder = orderArray
-//            //Append only unsubscribed cameras
-//            for i in 0..<connectedCameras.count {
-//                let serial = cameraFunctionality().getSerials([connectedCameras[i]])[0]
-//                if !cameraOrder.values.contains(serial) {
-//                    connectedUnsubscribed.append(serial)
-//                } else {
-//                }
-//            }
-//        } else {
-//            connectedUnsubscribed = cameraFunctionality().getSerials(connectedCameras)
-//        }
-//        tblView.reloadData()
+        if let orderArray = defaults.objectForKey("cameraOrder") as? [String:String] {
+            connectedUnsubscribed = []
+            cameraOrder = orderArray
+            //Append only unsubscribed cameras
+            for i in 0..<connectedCameras.count {
+                let serial = cameraFunctionality().getSerials([connectedCameras[i]])[0]
+                if !cameraOrder.values.contains(serial) {
+                    connectedUnsubscribed.append(serial)
+                } else {
+                }
+            }
+        } else {
+            connectedUnsubscribed = cameraFunctionality().getSerials(connectedCameras)
+        }
+        tblView.reloadData()
     }
     
     func numberOfRowsInTableView(tableView: NSTableView) -> Int {
