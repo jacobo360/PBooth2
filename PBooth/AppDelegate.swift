@@ -76,8 +76,31 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         }
     }
     
+    @IBAction func reconnect(sender: AnyObject) {
+        cameraFunctionality().closeS()
+        
+        if let current = NSApplication.sharedApplication().mainWindow {
+            let win = NSWindow(contentRect: current.frame,
+                               styleMask: NSResizableWindowMask,
+                               backing: NSBackingStoreType.Buffered, defer: true)
+            
+            win.contentViewController = ViewController()
+            win.makeKeyAndOrderFront(win)
+        } else {
+            let win = NSWindow(contentRect: NSMakeRect(100, 100, 600, 200),
+                               styleMask: NSResizableWindowMask,
+                               backing: NSBackingStoreType.Buffered, defer: true)
+            
+            win.contentViewController = ViewController()
+            win.makeKeyAndOrderFront(win)
+        }
+    }
+    
+    
     @IBAction func restart(sender: AnyObject) {
-        //cameraFunctionality().closeSession()
+        
+        cameraFunctionality().closeS()
+        
         if let current = NSApplication.sharedApplication().mainWindow {
             let win = NSWindow(contentRect: current.frame,
                            styleMask: NSResizableWindowMask,
@@ -96,6 +119,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     }
 
     @IBAction func newSession(sender: AnyObject) {
+
         if let current = NSApplication.sharedApplication().mainWindow {
             let win = NSWindow(contentRect: current.frame,
                                styleMask: NSResizableWindowMask,

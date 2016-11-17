@@ -65,8 +65,7 @@
                                     <items>
                                         <menuItem title="Restart &amp; Reconnect" keyEquivalent="n" id="Was-JA-tGl">
                                             <connections>
-                                                <action selector="restart:" target="Voe-Tx-rLC" id="v7v-uN-Jen"/>
-                                                <segue destination="jGA-0Y-lOj" kind="show" id="j4g-j7-d60"/>
+                                                <segue destination="52H-1e-Oxe" kind="show" id="Mny-T4-tUz"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="New Session" keyEquivalent="N" id="hsp-bh-gCI"/>
@@ -271,7 +270,7 @@
                 </viewController>
                 <customObject id="7T0-3K-6ds" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="283"/>
+            <point key="canvasLocation" x="21" y="298"/>
         </scene>
         <!--Downloader-->
         <scene sceneID="MyJ-gJ-C9W">

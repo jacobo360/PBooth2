@@ -36,6 +36,9 @@ class ViewController: NSViewController, EOSReadDataDelegate {
     }
     
     func go() {
+        print("RECALLED GO")
+        cameraFunctionality().closeS()
+        
         //Get Cameras
         camArray = cameraFunctionality().getCamsWithOpenSession(self)
         print(camArray)

@@ -22,7 +22,6 @@ class cameraFunctionality {
             do {
                 //openSession might be instance dependant (cant be called from another class)
                 if !cam.isOpen {
-                    //print(camera.index + 1)
                     try cam.openSession()
                     cameras.append(cam)
                 } else {
@@ -36,8 +35,8 @@ class cameraFunctionality {
         return cameras
     }
     
-    func closeSession() {
-        
+    func closeS() {
+        print("HERE")
         let cameraList = EOSManager.sharedManager().getCameras()
         
         for camera in cameraList {
@@ -46,10 +45,11 @@ class cameraFunctionality {
             
             do {
                 if cam.isOpen {
+                    print("closing \(camera.index)")
                     try cam.closeSession()
                 }
             } catch {
-                generalAlert("Camera \(camera.index + 1)", text: "Something happened when closing session")
+                generalAlert("Camera \(camera.index)", text: "Something happened when closing session")
             }
         }
     }
@@ -67,7 +67,7 @@ class cameraFunctionality {
                 if name == "DCIM" {
                     num2 = num.files() as! [EOSFile]
                     num3 = num2[0].files() as! [EOSFile]
-                    try print(num3[0].info().name)
+//                    try print(num3[0].info().name)
                     return num3
                 }
             }
