@@ -56,6 +56,20 @@ class ViewController: NSViewController, EOSReadDataDelegate {
         }
     }
     
+    @IBAction func resetLocation(sender: AnyObject) {
+        
+        // create a Save Panel to choose a file path to save to
+        let dlg = NSOpenPanel()
+        // run the Save Panel and handle an OK selection
+        if (dlg.runModal() == NSFileHandlingPanelOKButton) {
+            // get the URL of the selected file path
+            print(dlg.URL)
+            
+        }
+
+        
+    }
+    
     override func prepareForSegue(segue: NSStoryboardSegue, sender: AnyObject?) {
         
         if segue.identifier == "downloader" {

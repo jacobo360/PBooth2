@@ -63,12 +63,11 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="File" id="bib-Uj-vzu">
                                     <items>
-                                        <menuItem title="Restart &amp; Reconnect" keyEquivalent="n" id="Was-JA-tGl">
+                                        <menuItem title="New Session" keyEquivalent="n" id="Was-JA-tGl">
                                             <connections>
                                                 <segue destination="52H-1e-Oxe" kind="show" id="Mny-T4-tUz"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="New Session" keyEquivalent="N" id="hsp-bh-gCI"/>
                                         <menuItem isSeparatorItem="YES" id="m54-Is-iLE"/>
                                         <menuItem title="Export GIF" keyEquivalent="p" id="aTl-1u-JFS">
                                             <connections>
@@ -186,16 +185,33 @@
                                             <segue destination="J9E-f6-snV" kind="custom" identifier="toTab" customClass="ReplaceSegue" customModule="PBooth" customModuleProvider="target" id="C5k-ep-YkS"/>
                                         </connections>
                                     </button>
+                                    <button translatesAutoresizingMaskIntoConstraints="NO" id="LrC-9n-eo8">
+                                        <rect key="frame" x="393" y="17" width="30" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="LrC-9n-eo8" secondAttribute="height" multiplier="1:1" id="6bV-Bt-Za1"/>
+                                            <constraint firstAttribute="width" constant="30" id="Y5v-0W-UZM"/>
+                                            <constraint firstAttribute="height" constant="30" id="brN-Ly-qxI"/>
+                                        </constraints>
+                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="Download" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="i7O-EE-w6h">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="resetLocation:" target="52H-1e-Oxe" id="ddP-XW-Tt3"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="fm9-m0-Y3U" firstAttribute="centerY" secondItem="6bF-lL-Qqx" secondAttribute="centerY" id="5AR-0w-8Ik"/>
+                                    <constraint firstItem="Oex-wC-Mn6" firstAttribute="leading" secondItem="LrC-9n-eo8" secondAttribute="trailing" constant="8" id="DdT-io-RhY"/>
                                     <constraint firstAttribute="bottom" secondItem="fm9-m0-Y3U" secondAttribute="bottom" constant="17" id="FVM-7e-L3f"/>
                                     <constraint firstItem="Oex-wC-Mn6" firstAttribute="centerY" secondItem="fm9-m0-Y3U" secondAttribute="centerY" id="LY7-IU-Xhr"/>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="66" id="OXx-Uq-XYA"/>
                                     <constraint firstItem="fm9-m0-Y3U" firstAttribute="top" secondItem="6bF-lL-Qqx" secondAttribute="top" constant="17" id="T1X-fJ-Air"/>
                                     <constraint firstItem="fm9-m0-Y3U" firstAttribute="leading" secondItem="6bF-lL-Qqx" secondAttribute="leading" constant="20" id="bwT-oA-caR"/>
                                     <constraint firstAttribute="trailing" secondItem="Oex-wC-Mn6" secondAttribute="trailing" constant="20" id="ePh-hs-9G3"/>
-                                    <constraint firstItem="Oex-wC-Mn6" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="fm9-m0-Y3U" secondAttribute="trailing" constant="20" id="nGt-Sp-Fij"/>
+                                    <constraint firstItem="LrC-9n-eo8" firstAttribute="centerY" secondItem="Oex-wC-Mn6" secondAttribute="centerY" id="h7W-wV-JYA"/>
+                                    <constraint firstItem="LrC-9n-eo8" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="fm9-m0-Y3U" secondAttribute="trailing" constant="20" id="q25-PQ-gL8"/>
                                     <constraint firstItem="Oex-wC-Mn6" firstAttribute="width" secondItem="6bF-lL-Qqx" secondAttribute="height" multiplier="29:66" id="qch-yj-dDf"/>
                                 </constraints>
                             </customView>
@@ -215,23 +231,8 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <button translatesAutoresizingMaskIntoConstraints="NO" id="XPA-Wq-osn">
-                                <rect key="frame" x="205" y="95" width="70" height="70"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="70" id="3XC-Ya-HlM"/>
-                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="70" id="bYx-WT-28a"/>
-                                    <constraint firstAttribute="width" secondItem="XPA-Wq-osn" secondAttribute="height" multiplier="1:1" id="yAy-uV-uJZ"/>
-                                </constraints>
-                                <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="aperture" imagePosition="only" alignment="center" controlSize="mini" imageScaling="proportionallyUpOrDown" inset="2" id="jO9-iX-2yQ">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="miniSystem"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="shutter:" target="52H-1e-Oxe" id="r70-46-Lg9"/>
-                                </connections>
-                            </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yfm-5z-EjC">
-                                <rect key="frame" x="311" y="122" width="46" height="16"/>
+                                <rect key="frame" x="217" y="121" width="46" height="16"/>
                                 <buttonCell key="cell" type="push" title="Start" bezelStyle="rounded" alignment="center" controlSize="mini" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ozC-0x-DGU">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="miniSystem"/>
@@ -243,28 +244,22 @@
                             </button>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="yfm-5z-EjC" secondAttribute="trailing" constant="8" id="0d0-qF-4gD"/>
                             <constraint firstItem="6bF-lL-Qqx" firstAttribute="top" secondItem="rZG-Cl-5zh" secondAttribute="top" id="16X-Tx-iYU"/>
-                            <constraint firstItem="XPA-Wq-osn" firstAttribute="top" relation="greaterThanOrEqual" secondItem="1qD-mo-UbR" secondAttribute="bottom" constant="8" id="35L-zV-2bu"/>
                             <constraint firstItem="1qD-mo-UbR" firstAttribute="leading" secondItem="rZG-Cl-5zh" secondAttribute="leading" constant="20" id="9R8-lr-lNY"/>
                             <constraint firstAttribute="bottom" secondItem="PL1-gW-vrd" secondAttribute="bottom" constant="8" id="CPZ-OM-V5t"/>
                             <constraint firstItem="1qD-mo-UbR" firstAttribute="top" secondItem="6bF-lL-Qqx" secondAttribute="bottom" constant="8" id="Drd-7r-hrd"/>
-                            <constraint firstItem="yfm-5z-EjC" firstAttribute="leading" secondItem="XPA-Wq-osn" secondAttribute="trailing" constant="37" id="E0Z-Ze-FHf"/>
-                            <constraint firstItem="XPA-Wq-osn" firstAttribute="centerX" secondItem="rZG-Cl-5zh" secondAttribute="centerX" id="G7i-pI-pZx"/>
-                            <constraint firstItem="yfm-5z-EjC" firstAttribute="centerY" secondItem="XPA-Wq-osn" secondAttribute="centerY" id="Gmb-pY-JfC"/>
-                            <constraint firstItem="PL1-gW-vrd" firstAttribute="top" relation="greaterThanOrEqual" secondItem="XPA-Wq-osn" secondAttribute="bottom" constant="8" id="KfW-rT-E96"/>
                             <constraint firstItem="6bF-lL-Qqx" firstAttribute="leading" secondItem="rZG-Cl-5zh" secondAttribute="leading" id="Lnp-GP-Raq"/>
                             <constraint firstAttribute="trailing" secondItem="PL1-gW-vrd" secondAttribute="trailing" constant="8" id="OYJ-cp-qgi"/>
                             <constraint firstAttribute="trailing" secondItem="6bF-lL-Qqx" secondAttribute="trailing" id="R6k-f0-KGk"/>
                             <constraint firstItem="6bF-lL-Qqx" firstAttribute="height" secondItem="rZG-Cl-5zh" secondAttribute="height" multiplier="0.2" priority="999" id="YwJ-gY-I52"/>
-                            <constraint firstItem="XPA-Wq-osn" firstAttribute="centerY" secondItem="rZG-Cl-5zh" secondAttribute="centerY" constant="35" id="bH2-Fk-FAS"/>
+                            <constraint firstItem="yfm-5z-EjC" firstAttribute="centerX" secondItem="rZG-Cl-5zh" secondAttribute="centerX" id="hYp-vS-5NK"/>
                             <constraint firstAttribute="trailing" secondItem="1qD-mo-UbR" secondAttribute="trailing" constant="20" id="m88-Kh-fZP"/>
+                            <constraint firstItem="yfm-5z-EjC" firstAttribute="centerY" secondItem="rZG-Cl-5zh" secondAttribute="centerY" constant="35" id="zNx-70-Ph6"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="cameraNumLbl" destination="PL1-gW-vrd" id="ufA-88-4e4"/>
                         <outlet property="navView" destination="6bF-lL-Qqx" id="eVe-e9-R1O"/>
-                        <outlet property="shutterBtn" destination="XPA-Wq-osn" id="Jcr-sE-xda"/>
                         <outlet property="startBtn" destination="yfm-5z-EjC" id="5aV-UB-7rD"/>
                     </connections>
                 </viewController>
@@ -904,11 +899,11 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Download" width="24" height="24"/>
         <image name="Settings" width="36" height="36"/>
-        <image name="aperture" width="67" height="66.720001220703125"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="Mny-T4-tUz"/>
         <segue reference="C5k-ep-YkS"/>
-        <segue reference="K6g-yV-91l"/>
     </inferredMetricsTieBreakers>
 </document>
