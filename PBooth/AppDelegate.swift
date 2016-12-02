@@ -14,7 +14,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, EOSCameraD
     let manager: EOSManager = EOSManager.sharedManager()
     var showingAlert: Bool = false
     var cameraList: [EOSCamera]?
-
+    var timer = NSTimer()
+    
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         // Insert code here to initialize your application
         
@@ -27,7 +28,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, EOSCameraD
     }
 
     func applicationWillTerminate(aNotification: NSNotification) {
-        // Insert code here to tear down your application
         if manager.isLoaded {
             
             do {
@@ -149,26 +149,36 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, EOSCameraD
             print("ERROR PRINTING NAME")
         }
     
-    
     }
     
     func newPicsAlert() {
         
-        //IF NOT SHOWING AN ALERT, SHOW AN ALERT
-        if !showingAlert {
-            showingAlert = true
-            let myPopup: NSAlert = NSAlert()
-            myPopup.messageText = "Pictures taken"
-            myPopup.informativeText = "A new set is ready for download"
-            myPopup.alertStyle = NSAlertStyle.Warning
-            myPopup.addButtonWithTitle("OK")
-            let res = myPopup.runModal()
+        timer.invalidate()
         
-            if res == NSAlertFirstButtonReturn {
-                showingAlert = false
-            }
+        timer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: #selector(self.openWin), userInfo: nil, repeats: false)
+                
+    }
+
+    func openWin() {
+        
+        if let current = NSApplication.sharedApplication().mainWindow {
+            
+            let storyboard = NSStoryboard.init(name: "Main", bundle: nil)
+            let vc = storyboard.instantiateControllerWithIdentifier("downloaderID") as! Downloader
+            vc.cameras = cameraList!
+            current.contentViewController = vc
         }
         
+//        let win = NSWindow(contentRect: NSMakeRect(100, 100, 600, 200),
+//                           styleMask: NSResizableWindowMask,
+//                           backing: NSBackingStoreType.Buffered, defer: true)
+//        let storyboard = NSStoryboard.init(name: "Main", bundle: nil)
+//        let vc = storyboard.instantiateControllerWithIdentifier("downloaderID") as! Downloader
+//        vc.cameras = cameraList!
+//        
+//        win.contentViewController = vc
+////        win!.showWindow(nil)
+//        win.makeKeyAndOrderFront(win)
     }
     
 }

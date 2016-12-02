@@ -8,10 +8,10 @@
 
 import Cocoa
 
-let TEAL = NSColor(SRGBRed: 0.00, green:0.59, blue:0.53, alpha:1.0)
+let TEAL = NSColor(SRGBRed: 1.00, green:0.94, blue:0.00, alpha:1.0)
 let PINK = NSColor(SRGBRed: 1.00, green:0.25, blue:0.51, alpha:1.0)
 
-class ViewController: NSViewController, EOSReadDataDelegate {
+class ViewController: NSViewController {
     
     var camArray: [EOSCamera] = []
     let defaults = NSUserDefaults.standardUserDefaults()
@@ -46,10 +46,6 @@ class ViewController: NSViewController, EOSReadDataDelegate {
         self.performSegueWithIdentifier("downloader", sender: self)
     }
     
-    @IBAction func shutter(sender: AnyObject) {
-        checkCam()
-    }
-    
     override var representedObject: AnyObject? {
         didSet {
             // Update the view, if already loaded.
@@ -60,6 +56,9 @@ class ViewController: NSViewController, EOSReadDataDelegate {
         
         // create a Save Panel to choose a file path to save to
         let dlg = NSOpenPanel()
+        dlg.canChooseFiles = false
+        dlg.canChooseDirectories = true
+        
         // run the Save Panel and handle an OK selection
         if (dlg.runModal() == NSFileHandlingPanelOKButton) {
             // get the URL of the selected file path
@@ -84,55 +83,6 @@ class ViewController: NSViewController, EOSReadDataDelegate {
             myCams.connectedCameras = camArray
         }
         
-    }
-    
-    func checkCam() {
-        
-        for cam in camArray {
-            do {
-                let volumeList = cam.volumes()
-                let volume = volumeList[0] as! EOSVolume
-                for number in volume.files() {
-                    let num = number as! EOSFile
-                    var num2: [EOSFile] = []
-                    var num3: [EOSFile] = []
-                    let name = try num.info().name
-                    if name == "DCIM" {
-                        num2 = num.files() as! [EOSFile]
-                        num3 = num2[0].files() as! [EOSFile]
-                        try print(num3[0].info().name)
-                    }
-//                    for n in num2 {
-//                        let name = try n.info().name
-//                        print(name)
-//                        if name == "111CANON" {
-//                        }
-//                    }
-//                    let num2 = num.files() as! [EOSFile]
-//                    var num3: [EOSFile] = []
-//                    for n in num2 {
-//                        try print(n.info().name)
-//                        let name = try n.info().name
-//                        if name == "DCIM" {
-//                            num3 = n.files() as! [EOSFile]
-//                        }
-                    //}
-                    //try print(num3[0].info().name)
-                    //                let num3 = num2[1].files() as! [EOSFile]
-                    //                try print(num3[num3.count - 1].info().name)
-                    //                return num3
-                }
-            } catch {
-                //Handle Error
-                print("catched")
-            }
-        }
-    }
-    
-    func didReadData(data: NSData!, forFile file: EOSFile!, contextInfo: AnyObject!, error: NSError!) {
-        //Check if data is an NSImage
-        print("didReadData")
-        shutterBtn.image = NSImage(data: data)
     }
     
 }

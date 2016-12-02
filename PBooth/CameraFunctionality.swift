@@ -10,6 +10,8 @@ import Cocoa
 
 class cameraFunctionality {
     
+    let thisDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
+    
     //Get Cameras and Open its Session
     func getCamsWithOpenSession(vc: ViewController) -> [EOSCamera] {
         var cameras: [EOSCamera] = []
@@ -34,6 +36,7 @@ class cameraFunctionality {
             }
         }
         vc.cameraNumLbl.stringValue = "There are \(cameras.count) cameras connected"
+        thisDelegate.cameraList = cameras
         return cameras
     }
     
