@@ -62,7 +62,9 @@ class ViewController: NSViewController {
         // run the Save Panel and handle an OK selection
         if (dlg.runModal() == NSFileHandlingPanelOKButton) {
             // get the URL of the selected file path
-            print(dlg.URL)
+            let url = String(dlg.URL!)
+            defaults.setObject(url, forKey: "save_url")
+            defaults.setInteger(1, forKey: "sequence")
             
         }
 

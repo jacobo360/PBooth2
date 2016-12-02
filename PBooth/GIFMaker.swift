@@ -13,13 +13,8 @@ class GIFMaker {
     
     func createGIF(with images: [NSImage], name: NSURL, loopCount: Int = 0, frameDelay: Double) {
         
-        print("you have \(images.count) images")
         let destinationURL = name
-//        let destinationURL = NSURL(fileURLWithPath: "/Users/Jason/Documents/GIFS").URLByAppendingPathComponent("\(name).gif")
         let destinationGIF = CGImageDestinationCreateWithURL(destinationURL, kUTTypeGIF, images.count, nil)!
-        
-        // The final size of your GIF. This is an optional parameter
-        //var rect = NSMakeRect(0, 0, 350, 250)
         
         // This dictionary controls the delay between frames
         // If you don't specify this, CGImage will apply a default delay
@@ -40,6 +35,11 @@ class GIFMaker {
         
         // Write the GIF file to disk
         CGImageDestinationFinalize(destinationGIF)
+        
+        print("GIF DATA: \(NSData(contentsOfURL: destinationURL))")
+        let dataedGif = NSData(contentsOfURL: destinationURL)
+        
+        
     }
     
 }

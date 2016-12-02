@@ -49,14 +49,15 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         //check to see if we have custom profile to use camera order for image in position
         var selection: Int = 0
         
-        if let data = defaults.objectForKey("selectedProfile") as? NSData {
-            let profile = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! SessionProfile
-            self.selectedProfile.stringValue = profile.name
-            cameraOrder = profile.cameraOrder
+        //CHANGED AFTER COMPLETION, TRIED WITH SAMPLE IMAGES- BE CAREFUL TO UNCOMMENT IF THERE ARE ISSUES
+//        if let data = defaults.objectForKey("selectedProfile") as? NSData {
+//            let profile = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! SessionProfile
+//            self.selectedProfile.stringValue = profile.name
+//            cameraOrder = profile.cameraOrder
             selection = cameraOrder[table.selectedRow]
-        } else {
-            selection = table.selectedRow + 1
-        }
+//        } else {
+//            selection = table.selectedRow + 1
+//        }
         imgView.image = images[selection - 1]
     }
     
@@ -159,6 +160,7 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
             dDown.removeAllItems()
             dDown.addItemsWithTitles(nameList)
         } else {
+            defaultAlert("Setting Default Profile")
         }
         
         a.accessoryView = dDown
@@ -241,6 +243,7 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
     func expGIF(name: NSURL) {
         
         var finalImages: [NSImage] = []
+        print(cameraOrder)
         for i in cameraOrder {
             finalImages.append(images[i-1])
         }
