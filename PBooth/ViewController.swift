@@ -8,7 +8,7 @@
 
 import Cocoa
 
-let TEAL = NSColor(SRGBRed: 1.00, green:0.94, blue:0.00, alpha:1.0)
+let YELLOW = NSColor(SRGBRed: 1.00, green:0.94, blue:0.00, alpha:1.0)
 let PINK = NSColor(SRGBRed: 1.00, green:0.25, blue:0.51, alpha:1.0)
 
 class ViewController: NSViewController {
@@ -26,7 +26,7 @@ class ViewController: NSViewController {
         
         //Set up design
         navView.wantsLayer = true
-        navView.layer?.backgroundColor = TEAL.CGColor
+        navView.layer?.backgroundColor = YELLOW.CGColor
         self.view.wantsLayer = true
         self.view.layer?.backgroundColor = NSColor.whiteColor().CGColor
         startBtn.hidden = true

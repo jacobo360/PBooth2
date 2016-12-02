@@ -44,7 +44,6 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
     }
     
     func tableViewSelectionDidChange(notification: NSNotification) {
-        //print(images)
         let table = notification.object as! NSTableView
         
         //check to see if we have custom profile to use camera order for image in position
@@ -58,7 +57,6 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         } else {
             selection = table.selectedRow + 1
         }
-        print(selection)
         imgView.image = images[selection - 1]
     }
     
@@ -167,8 +165,8 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         
         a.beginSheetModalForWindow(self.view.window!, completionHandler: { (modalResponse) -> Void in
             if modalResponse == NSAlertFirstButtonReturn {
-                print(dDown.selectedItem)
-                print(dDown.indexOfSelectedItem)
+//                print(dDown.selectedItem)
+//                print(dDown.indexOfSelectedItem)
                 if dDown.selectedItem != nil && dDown.indexOfSelectedItem != -1 {
                     let selection = profileList[dDown.indexOfSelectedItem]
                     let data = NSKeyedArchiver.archivedDataWithRootObject(selection)
@@ -241,8 +239,14 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
     }
 
     func expGIF(name: NSURL) {
-        print("here")
-        GIFMaker().createGIF(with: images, name: name, frameDelay: 0.2)
+        
+        var finalImages: [NSImage] = []
+        for i in cameraOrder {
+            finalImages.append(images[i-1])
+        }
+        
+        GIFMaker().createGIF(with: finalImages, name: name, frameDelay: 0.1)
+        
     }
     
     @IBAction func exportGIF(sender: NSButton) {
