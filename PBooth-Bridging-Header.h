@@ -11,5 +11,6 @@
 
 #import <EOSFramework/EOSFramework.h>
 #include <inttypes.h>
+#import <DropboxOSX/DropboxOSX.h>
 
 #endif /* PBooth_Bridging_Header_h */

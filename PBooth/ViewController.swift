@@ -11,11 +11,16 @@ import Cocoa
 let YELLOW = NSColor(SRGBRed: 1.00, green:0.94, blue:0.00, alpha:1.0)
 let PINK = NSColor(SRGBRed: 1.00, green:0.25, blue:0.51, alpha:1.0)
 
-class ViewController: NSViewController {
+class ViewController: NSViewController, DBRestClientDelegate {
     
     var camArray: [EOSCamera] = []
     let defaults = NSUserDefaults.standardUserDefaults()
-    
+    //DROPBOX
+    let dbAppKey = "h6jvyg1vspe0avk"
+    let dbAppSecret = "4q1i6q7xk5zygv1"
+    let dbRoot = kDBRootDropbox
+    var timer = NSTimer()
+
     @IBOutlet weak var navView: NSView!
     @IBOutlet weak var cameraNumLbl: NSTextField!
     @IBOutlet weak var shutterBtn: NSButton!
@@ -33,6 +38,35 @@ class ViewController: NSViewController {
         
         //Get Cameras
         NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(1), target: self, selector: #selector(ViewController.go), userInfo: nil, repeats: false)
+        
+        timer = NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(0.5), target: self, selector: #selector(ViewController.dbHelper), userInfo: nil, repeats: true)
+        
+    }
+    
+    func dbHelper() {
+        //DropboxAuthHelper
+        let dbSession = DBSession(appKey: dbAppKey, appSecret: dbAppSecret, root: dbRoot)
+        DBSession.setSharedSession(dbSession)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.dbAuth), name: DBAuthHelperOSXStateChangedNotification, object: DBAuthHelperOSX.sharedHelper())
+        if DBSession.sharedSession().isLinked() {
+            // The link button turns into an unlink button when you're linked
+//            DBSession.sharedSession().unlinkAll()
+            print("linked")
+            timer.invalidate()
+        }
+        else {
+            DBAuthHelperOSX.sharedHelper().authenticate()
+        }
+    }
+    
+    func dbAuth() {
+        print("HERE")
+        if DBSession.sharedSession().isLinked() {
+            // You can now start using the API!
+            print("LINKED")
+        } else {
+            print("unlinked")
+        }
     }
     
     func go() {

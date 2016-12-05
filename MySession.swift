@@ -8,9 +8,10 @@
 
 import Cocoa
 
-class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
+class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource, DBRestClientDelegate {
 
     let defaults = NSUserDefaults.standardUserDefaults()
+    var restClient = DBRestClient()
     
     @IBOutlet weak var tableView: NSTableView!
     @IBOutlet weak var imgView: NSImageView!
@@ -33,6 +34,11 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         
         //Set Up Selected Profile
         restartProfile()
+        
+        //DB
+        restClient = DBRestClient(session: DBSession.sharedSession())
+        print(restClient)
+        self.restClient.delegate = self
     }
     
     override func viewDidAppear() {
@@ -249,11 +255,45 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
         }
         
         GIFMaker().createGIF(with: finalImages, name: name, frameDelay: 0.1)
-        
+        uploadGIF(name)
     }
     
-    @IBAction func exportGIF(sender: NSButton) {
-        //expGIF()
+//    @IBAction func exportGIF(sender: NSButton) {
+//        //expGIF()
+//    }
+    
+    func uploadGIF(destinationURL: NSURL) {
+        let name = destinationURL.lastPathComponent
+        self.restClient.uploadFile(name, toPath: "/", withParentRev: nil, fromPath: destinationURL.path)
+    }
+    
+    func restClient(client: DBRestClient!, uploadedFile destPath: String!, fromUploadId uploadId: String!, metadata: DBMetadata!) {
+        print(metadata.path)
+    }
+    
+    func restClient(client: DBRestClient!, uploadFileFailedWithError error: NSError!) {
+        print(error)
+    }
+    
+    func restClient(client: DBRestClient!, uploadProgress progress: CGFloat, forFile destPath: String!, from srcPath: String!) {
+        if progress == 1.0 {
+            generalAlert("GIF Uploaded", text: "Your GIF has been saved to your computer and uploaded to Dropbox under: \(destPath)")
+        } else {
+            print(progress)
+        }
+    }
+    
+    func generalAlert(question: String, text: String) {
+        let myPopup: NSAlert = NSAlert()
+        myPopup.messageText = question
+        myPopup.informativeText = text
+        myPopup.alertStyle = NSAlertStyle.Warning
+        myPopup.addButtonWithTitle("OK")
+        let res = myPopup.runModal()
+        
+        if res == NSAlertFirstButtonReturn {
+            //Should Restart Program-Handle Error
+        }
     }
     
 }

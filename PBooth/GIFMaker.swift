@@ -9,7 +9,13 @@
 import Cocoa
 import ImageIO
 
-class GIFMaker {
+class GIFMaker: NSObject, DBRestClientDelegate {
+    
+    let restClient = DBRestClient(session: DBSession.sharedSession())
+    //DROPBOX
+    let dbAppKey = "h6jvyg1vspe0avk"
+    let dbAppSecret = "4q1i6q7xk5zygv1"
+    let dbRoot = kDBRootDropbox
     
     func createGIF(with images: [NSImage], name: NSURL, loopCount: Int = 0, frameDelay: Double) {
         
@@ -36,10 +42,18 @@ class GIFMaker {
         // Write the GIF file to disk
         CGImageDestinationFinalize(destinationGIF)
         
-        print("GIF DATA: \(NSData(contentsOfURL: destinationURL))")
-        let dataedGif = NSData(contentsOfURL: destinationURL)
+        let _ = NSData(contentsOfURL: destinationURL)
         
-        
+        restClient.delegate = NSApplication.sharedApplication().delegate as! AppDelegate
+        restClient.uploadFile("example.gif", toPath: "/", withParentRev: nil, fromPath: destinationURL.path)
+    }
+    
+    @objc func restClient(client: DBRestClient!, uploadedFile destPath: String!, fromUploadId uploadId: String!, metadata: DBMetadata!) {
+        print(metadata.path)
+    }
+    
+    @objc func restClient(client: DBRestClient!, uploadFileFailedWithError error: NSError!) {
+        print(error)
     }
     
 }

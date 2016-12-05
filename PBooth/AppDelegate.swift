@@ -9,7 +9,7 @@
 import Cocoa
 
 @NSApplicationMain
-class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, EOSCameraDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, EOSCameraDelegate, DBRestClientDelegate {
 
     let manager: EOSManager = EOSManager.sharedManager()
     var showingAlert: Bool = false
@@ -21,13 +21,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, EOSCameraD
         // Insert code here to initialize your application
         
         do {
-          try manager.load()
+            try manager.load()
         } catch {
             print("could not load")
         }
-    
+        
+        
     }
-
+    
     func applicationWillTerminate(aNotification: NSNotification) {
         if manager.isLoaded {
             
@@ -146,6 +147,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, EOSCameraD
         if res == NSAlertFirstButtonReturn {
             //Should Restart Program-Handle Error
         }
+    }
+    
+    @objc func restClient(client: DBRestClient!, uploadedFile destPath: String!, fromUploadId uploadId: String!, metadata: DBMetadata!) {
+        print(metadata.path)
+    }
+    
+    @objc func restClient(client: DBRestClient!, uploadFileFailedWithError error: NSError!) {
+        print(error)
     }
     
 }
