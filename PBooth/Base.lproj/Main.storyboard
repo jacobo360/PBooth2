@@ -346,7 +346,7 @@
                         <subviews>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g59-4G-sel">
                                 <rect key="frame" x="0.0" y="66" width="153" height="314"/>
-                                <clipView key="contentView" id="iGd-Jo-YfN">
+                                <clipView key="contentView" ambiguous="YES" id="iGd-Jo-YfN">
                                     <rect key="frame" x="1" y="0.0" width="151" height="313"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -396,7 +396,7 @@
                                 </tableHeaderView>
                             </scrollView>
                             <imageView horizontalHuggingPriority="1000" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="pDA-kA-mcl">
-                                <rect key="frame" x="172" y="82" width="393" height="260"/>
+                                <rect key="frame" x="172" y="81" width="393" height="261"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="pDA-kA-mcl" secondAttribute="height" multiplier="116:77" id="0h5-cN-dTz"/>
                                 </constraints>
@@ -471,11 +471,18 @@
                                     <action selector="changeProfile:" target="syt-o4-abf" id="jrd-Ch-2f5"/>
                                 </connections>
                             </button>
+                            <progressIndicator wantsLayer="YES" maxValue="100" doubleValue="30" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="A6K-yy-85h">
+                                <rect key="frame" x="172" y="349" width="393" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="18" id="PvD-fG-aXj"/>
+                                </constraints>
+                            </progressIndicator>
                         </subviews>
                         <constraints>
                             <constraint firstItem="g59-4G-sel" firstAttribute="leading" secondItem="ACd-qL-mQJ" secondAttribute="leading" id="1Cy-K9-xzl"/>
                             <constraint firstItem="GNm-Aj-RoP" firstAttribute="centerY" secondItem="cv0-7f-Vaw" secondAttribute="centerY" id="2WX-1p-zbM"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="pDA-kA-mcl" secondAttribute="trailing" constant="20" id="3RM-oL-4R9"/>
+                            <constraint firstItem="A6K-yy-85h" firstAttribute="leading" secondItem="pDA-kA-mcl" secondAttribute="leading" id="6E8-gp-arW"/>
                             <constraint firstItem="cv0-7f-Vaw" firstAttribute="leading" secondItem="pDA-kA-mcl" secondAttribute="leading" id="8pL-of-spG"/>
                             <constraint firstItem="Cvc-VU-0Ky" firstAttribute="leading" secondItem="GNm-Aj-RoP" secondAttribute="trailing" constant="8" id="AY2-th-vZR"/>
                             <constraint firstItem="cv0-7f-Vaw" firstAttribute="centerY" secondItem="UX6-ui-8Bm" secondAttribute="centerY" id="HTe-gk-7PS"/>
@@ -483,11 +490,14 @@
                             <constraint firstItem="Cvc-VU-0Ky" firstAttribute="centerY" secondItem="cv0-7f-Vaw" secondAttribute="centerY" id="J6f-TC-sxg"/>
                             <constraint firstAttribute="bottom" secondItem="UX6-ui-8Bm" secondAttribute="bottom" constant="8" id="Mzr-Dc-Pw1"/>
                             <constraint firstItem="pDA-kA-mcl" firstAttribute="centerY" secondItem="NDM-rM-hWJ" secondAttribute="centerY" id="R0S-Ah-8Yz"/>
+                            <constraint firstItem="A6K-yy-85h" firstAttribute="trailing" secondItem="pDA-kA-mcl" secondAttribute="trailing" id="bEp-Ei-dae"/>
                             <constraint firstItem="pDA-kA-mcl" firstAttribute="leading" secondItem="NDM-rM-hWJ" secondAttribute="trailing" constant="20" id="dgB-Eq-6h8"/>
                             <constraint firstAttribute="trailing" secondItem="Cvc-VU-0Ky" secondAttribute="trailing" constant="20" id="eEL-7A-HAn"/>
+                            <constraint firstItem="A6K-yy-85h" firstAttribute="top" secondItem="ACd-qL-mQJ" secondAttribute="top" constant="12" id="hwP-39-l8o"/>
                             <constraint firstItem="pDA-kA-mcl" firstAttribute="height" secondItem="NDM-rM-hWJ" secondAttribute="height" multiplier="0.9" id="lkI-af-wws"/>
                             <constraint firstItem="Cvc-VU-0Ky" firstAttribute="top" relation="greaterThanOrEqual" secondItem="pDA-kA-mcl" secondAttribute="bottom" constant="20" id="qAx-Vd-Sxe"/>
                             <constraint firstItem="GNm-Aj-RoP" firstAttribute="leading" secondItem="cv0-7f-Vaw" secondAttribute="trailing" constant="8" id="sPK-Id-XX9"/>
+                            <constraint firstItem="pDA-kA-mcl" firstAttribute="top" secondItem="A6K-yy-85h" secondAttribute="bottom" constant="8" id="xDW-hf-mDz"/>
                             <constraint firstItem="UX6-ui-8Bm" firstAttribute="top" secondItem="g59-4G-sel" secondAttribute="bottom" constant="8" id="ymy-9C-O3j"/>
                             <constraint firstItem="UX6-ui-8Bm" firstAttribute="centerX" secondItem="NDM-rM-hWJ" secondAttribute="centerX" id="zwk-SV-oG6"/>
                         </constraints>
@@ -495,6 +505,7 @@
                     <connections>
                         <outlet property="changeProfile" destination="Cvc-VU-0Ky" id="Xgu-ol-knW"/>
                         <outlet property="imgView" destination="pDA-kA-mcl" id="j8E-Yg-ZQq"/>
+                        <outlet property="progressBar" destination="A6K-yy-85h" id="1Nj-j9-rey"/>
                         <outlet property="selectedProfile" destination="GNm-Aj-RoP" id="hyM-O2-k0c"/>
                         <outlet property="tableView" destination="NDM-rM-hWJ" id="LD5-mL-ks7"/>
                     </connections>

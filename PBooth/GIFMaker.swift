@@ -44,8 +44,8 @@ class GIFMaker: NSObject, DBRestClientDelegate {
         
         let _ = NSData(contentsOfURL: destinationURL)
         
-        restClient.delegate = NSApplication.sharedApplication().delegate as! AppDelegate
-        restClient.uploadFile("example.gif", toPath: "/", withParentRev: nil, fromPath: destinationURL.path)
+//        restClient.delegate = NSApplication.sharedApplication().delegate as! AppDelegate
+//        restClient.uploadFile("example.gif", toPath: "/", withParentRev: nil, fromPath: destinationURL.path)
     }
     
     @objc func restClient(client: DBRestClient!, uploadedFile destPath: String!, fromUploadId uploadId: String!, metadata: DBMetadata!) {

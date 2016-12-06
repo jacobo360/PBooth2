@@ -16,6 +16,7 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource, D
     @IBOutlet weak var tableView: NSTableView!
     @IBOutlet weak var imgView: NSImageView!
     @IBOutlet weak var selectedProfile: NSTextField!
+    @IBOutlet weak var progressBar: NSProgressIndicator!
     
     var images:[NSImage] = []
     var cameraOrder: [Int] = []
@@ -31,6 +32,7 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource, D
         self.view.layer?.backgroundColor = NSColor.whiteColor().CGColor
         tableView.registerForDraggedTypes([NSGeneralPboard])
         tableView.allowsColumnSelection = false
+        progressBar.hidden = true
         
         //Set Up Selected Profile
         restartProfile()
@@ -264,7 +266,7 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource, D
     
     func uploadGIF(destinationURL: NSURL) {
         let name = destinationURL.lastPathComponent
-        self.restClient.uploadFile(name, toPath: "/", withParentRev: nil, fromPath: destinationURL.path)
+        self.restClient.uploadFile(name, toPath: "/Images", withParentRev: nil, fromPath: destinationURL.path)
     }
     
     func restClient(client: DBRestClient!, uploadedFile destPath: String!, fromUploadId uploadId: String!, metadata: DBMetadata!) {
@@ -277,9 +279,12 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource, D
     
     func restClient(client: DBRestClient!, uploadProgress progress: CGFloat, forFile destPath: String!, from srcPath: String!) {
         if progress == 1.0 {
+            progressBar.hidden = true
             generalAlert("GIF Uploaded", text: "Your GIF has been saved to your computer and uploaded to Dropbox under: \(destPath)")
         } else {
+            progressBar.hidden = false
             print(progress)
+            progressBar.doubleValue = Double(progress)*100
         }
     }
     

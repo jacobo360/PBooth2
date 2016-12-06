@@ -9,7 +9,7 @@
 import Cocoa
 
 @NSApplicationMain
-class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, EOSCameraDelegate, DBRestClientDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, EOSCameraDelegate {
 
     let manager: EOSManager = EOSManager.sharedManager()
     var showingAlert: Bool = false
@@ -44,18 +44,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, EOSCameraD
     @IBAction func expGIF(sender: AnyObject) {
         if let window = NSApplication.sharedApplication().mainWindow {
             if let viewController = window.contentViewController?.childViewControllers[0] as? MySession {
-                
-//                // create a Save Panel to choose a file path to save to
-//                let dlg = NSSavePanel()
-//                // use the name fields value to suggest a name for the file
-//                dlg.nameFieldStringValue = ""
-//                // run the Save Panel and handle an OK selection
-//                if (dlg.runModal() == NSFileHandlingPanelOKButton) {
-//                    // get the URL of the selected file path
-//                    let saveUrl = dlg.URL
-//                    // archive the dictionary and save to the file path
-//                    viewController.expGIF((saveUrl?.URLByAppendingPathExtension("gif"))!)
-//                }
             
                 if let url = defaults.objectForKey("save_url") {
                     
@@ -147,14 +135,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, EOSCameraD
         if res == NSAlertFirstButtonReturn {
             //Should Restart Program-Handle Error
         }
-    }
-    
-    @objc func restClient(client: DBRestClient!, uploadedFile destPath: String!, fromUploadId uploadId: String!, metadata: DBMetadata!) {
-        print(metadata.path)
-    }
-    
-    @objc func restClient(client: DBRestClient!, uploadFileFailedWithError error: NSError!) {
-        print(error)
     }
     
 }
