@@ -57,7 +57,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, EOSCameraD
                         name = "0" + name
                     }
                     
-                    name = "IMG_" + name + String(int)
+                    name = "PBOOTH_" + name + String(int)
                     
                     let urlWithName = (url as! String) + name
                 

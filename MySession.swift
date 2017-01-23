@@ -260,10 +260,6 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource, D
         uploadGIF(name)
     }
     
-//    @IBAction func exportGIF(sender: NSButton) {
-//        //expGIF()
-//    }
-    
     func uploadGIF(destinationURL: NSURL) {
         let name = destinationURL.lastPathComponent
         self.restClient.uploadFile(name, toPath: "/Images", withParentRev: nil, fromPath: destinationURL.path)
