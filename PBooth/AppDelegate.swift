@@ -7,6 +7,8 @@
 //
 
 import Cocoa
+import Fabric
+import Crashlytics
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, EOSCameraDelegate {
@@ -26,6 +28,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, EOSCameraD
             print("could not load")
         }
         
+        Fabric.with([Crashlytics.self])
         
     }
     
