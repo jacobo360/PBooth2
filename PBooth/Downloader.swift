@@ -32,7 +32,7 @@ class Downloader: NSViewController, EOSReadDataDelegate {
     
     override func viewDidAppear() {
         //INCLUDE FOR TRIAL PURPOSES
-        self.performSegueWithIdentifier("mientras", sender: self)
+//        self.performSegueWithIdentifier("mientras", sender: self)
         
         progress = 0
         dict = [:]
@@ -42,9 +42,9 @@ class Downloader: NSViewController, EOSReadDataDelegate {
         super.viewDidLoad()
         
         //REMOVE FOR TRIAL PURPOSES
-//        if cameras.count == 0 {
-//            generalAlert("No cameras Detected", text: "There seems to be no cameras connected and turned on, please check the connection and try again")
-//        }
+        if cameras.count == 0 {
+            generalAlert("No cameras Detected", text: "There seems to be no cameras connected and turned on, please check the connection and try again")
+        }
         
         //Set up Design
         self.view.wantsLayer = true

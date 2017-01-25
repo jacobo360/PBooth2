@@ -11,7 +11,6 @@
 		7E0EE7E61D625AAF003FC151 /* SessionProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0EE7E51D625AAF003FC151 /* SessionProfile.swift */; };
 		7E0EE7EC1D625BB4003FC151 /* MyProfiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0EE7EB1D625BB4003FC151 /* MyProfiles.swift */; };
 		7E357D3E1DF5DB01000113A6 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E357D3D1DF5DB01000113A6 /* Security.framework */; };
-		7E357D401DF5DBAB000113A6 /* DropboxOSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E357D3F1DF5DBAB000113A6 /* DropboxOSX.framework */; };
 		7E357D421DF5DBCD000113A6 /* DropboxOSX.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7E357D3F1DF5DBAB000113A6 /* DropboxOSX.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7E357D431DF5DC0C000113A6 /* DropboxOSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E357D3F1DF5DBAB000113A6 /* DropboxOSX.framework */; };
 		7E357D441DF5DC0C000113A6 /* DropboxOSX.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7E357D3F1DF5DBAB000113A6 /* DropboxOSX.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -124,7 +123,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				7E357D431DF5DC0C000113A6 /* DropboxOSX.framework in Frameworks */,
-				7E357D401DF5DBAB000113A6 /* DropboxOSX.framework in Frameworks */,
 				7E357D3E1DF5DB01000113A6 /* Security.framework in Frameworks */,
 				7ECA32D91D54DF5C00449835 /* EDSDK.framework in Frameworks */,
 				7ECA32D61D54DEEB00449835 /* EOSFramework.framework in Frameworks */,
@@ -332,7 +330,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Jacobo Koenig";
 				TargetAttributes = {
 					7ECA32A41D54DEC800449835 = {
