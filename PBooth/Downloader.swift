@@ -120,6 +120,7 @@ class Downloader: NSViewController, EOSReadDataDelegate {
                 }
                 print("Sorted Array: \(arrayInSt)")
                 
+                //MARK: THIS AREA CAUSES A FATAL CRASH THAT IS UNRESOLVED -- INITIATED BY CRASH IN CAMERA REGISTRATION, PERHAPS BY SAVING CONFIGURATION AT THE END, OR DEFAULT IF THERE IS NIL AT dict[orderArray[i]!]!)
                 for i in arrayInSt {
 //                    print(dict[orderArray[i]!]!)
                     if dict[orderArray[i]!] != nil {
