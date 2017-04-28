@@ -13,8 +13,8 @@ class GIFMaker: NSObject, DBRestClientDelegate {
     
     let restClient = DBRestClient(session: DBSession.sharedSession())
     //DROPBOX
-    let dbAppKey = "h6jvyg1vspe0avk"
-    let dbAppSecret = "4q1i6q7xk5zygv1"
+    let dbAppKey = "hntpvw04h7gp9y3"
+    let dbAppSecret = "r12bup7ofnjpthb"
     let dbRoot = kDBRootDropbox
     
     func createGIF(with images: [NSImage], name: NSURL, loopCount: Int = 0, frameDelay: Double) {

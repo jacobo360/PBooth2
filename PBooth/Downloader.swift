@@ -32,7 +32,7 @@ class Downloader: NSViewController, EOSReadDataDelegate {
     
     override func viewDidAppear() {
         //INCLUDE FOR TRIAL PURPOSES
-//        self.performSegueWithIdentifier("mientras", sender: self)
+        self.performSegueWithIdentifier("mientras", sender: self)
         
         progress = 0
         dict = [:]
@@ -42,9 +42,9 @@ class Downloader: NSViewController, EOSReadDataDelegate {
         super.viewDidLoad()
         
         //REMOVE FOR TRIAL PURPOSES
-        if cameras.count == 0 {
-            generalAlert("No cameras Detected", text: "There seems to be no cameras connected and turned on, please check the connection and try again")
-        }
+//        if cameras.count == 0 {
+//            generalAlert("No cameras Detected", text: "There seems to be no cameras connected and turned on, please check the connection and try again")
+//        }
         
         //Set up Design
         self.view.wantsLayer = true
@@ -150,7 +150,7 @@ class Downloader: NSViewController, EOSReadDataDelegate {
         } else if segue.identifier == "mientras" {
             let dVC = segue.destinationController as! TabView
             let session = dVC.childViewControllers[0] as! MySession
-            session.images = [NSImage(named: "1")!, NSImage(named: "2")!, NSImage(named: "3")!, NSImage(named: "4")!]
+            session.images = [NSImage(named: "1")!, NSImage(named: "2")!, NSImage(named: "3")!, NSImage(named: "4")!, NSImage(named: "5")!, NSImage(named: "6")!, NSImage(named: "7")!, NSImage(named: "8")!, NSImage(named: "9")!, NSImage(named: "10")!, NSImage(named: "11")!, NSImage(named: "12")!, NSImage(named: "13")!, NSImage(named: "14")!, NSImage(named: "15")!, NSImage(named: "16")!, NSImage(named: "17")!]
         }
     }
     

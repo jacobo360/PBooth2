@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import CloudConvert
 
 class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource, DBRestClientDelegate {
 
@@ -41,6 +42,10 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource, D
         restClient = DBRestClient(session: DBSession.sharedSession())
         print(restClient)
         self.restClient.delegate = self
+        
+        //CC
+        CloudConvert.apiKey = "pT3CUi_lbqkOCSNKPvAsVo4I3Qxynu11_Sud_elKlVWnY8Jjkct3fHYV-9HRxlNo7rrdiLlmpvCONlbTcDmYIg"
+    
     }
     
     override func viewDidAppear() {
@@ -258,6 +263,50 @@ class MySession: NSViewController, NSTableViewDelegate, NSTableViewDataSource, D
         
         GIFMaker().createGIF(with: finalImages, name: name, frameDelay: 0.1)
         uploadGIF(name)
+    }
+    
+    func expCC(name: NSURL) {
+        
+        var finalImages: [NSImage] = []
+        print(cameraOrder)
+        for i in cameraOrder {
+            finalImages.append(images[i-1])
+        }
+        
+        GIFMaker().createGIF(with: finalImages, name: name, frameDelay: 0.1)
+        
+        CloudConvert.convert([
+            "inputformat": "gif",
+            "outputformat" : "mov",
+            "input" : "upload",
+            "file": name],
+                             
+            progressHandler: { (step, percent, message) -> Void in
+                
+                dispatch_async(dispatch_get_main_queue(),{
+                    print(percent!)
+                    self.progressBar.hidden = false
+                    self.progressBar.doubleValue = Double(percent!)
+                    
+                    if percent == 0 || percent == 100 {
+                        self.progressBar.hidden = true
+                    }
+                    
+                })
+                
+            },
+            completionHandler: { (path, error) -> Void in
+                if(error != nil) {
+                    self.progressBar.hidden = true
+                    self.generalAlert("ERROR", text: "Your file could not be uploaded. Error: \(error!)")
+                    print("ERROR: \(error)")
+                } else {
+                    self.progressBar.hidden = true
+                    self.generalAlert("MOV Uploaded", text: "Your MOV has been saved to your computer and uploaded to Cloud Convert")
+                    print("PATH: \(path)")
+                }
+        })
+        
     }
     
     func uploadGIF(destinationURL: NSURL) {

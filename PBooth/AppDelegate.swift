@@ -77,6 +77,41 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, EOSCameraD
         }
     }
 
+    @IBAction func expCC(sender: AnyObject) {
+    
+        if let window = NSApplication.sharedApplication().mainWindow {
+            if let viewController = window.contentViewController?.childViewControllers[0] as? MySession {
+                
+                if let url = defaults.objectForKey("save_url") {
+                    
+                    let int = defaults.integerForKey("sequence")
+                    defaults.setInteger(int + 1, forKey: "sequence")
+                    
+                    let length = String(int).characters.count
+                    var name = ""
+                    
+                    for _ in 0..<(4 - length) {
+                        name = "0" + name
+                    }
+                    
+                    name = "PBOOTH_" + name + String(int)
+                    
+                    let urlWithName = (url as! String) + name
+                    
+                    let loc = NSURL(string: urlWithName )
+                    
+                    viewController.expCC((loc!.URLByAppendingPathExtension("gif"))!)
+                    
+                } else {
+                    //Alert No Location Defined
+                    generalAlert("No Save Location Defined", text: "Please open a New Session and define your preferred save location with button on the top right of the window")
+                }
+                
+            }
+        }
+        
+    }
+    
     @IBAction func newSession(sender: AnyObject) {
 
         if let current = NSApplication.sharedApplication().mainWindow {

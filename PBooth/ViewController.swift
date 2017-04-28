@@ -16,8 +16,8 @@ class ViewController: NSViewController, DBRestClientDelegate {
     var camArray: [EOSCamera] = []
     let defaults = NSUserDefaults.standardUserDefaults()
     //DROPBOX
-    let dbAppKey = "j1ljcoqpg2x1ls1"
-    let dbAppSecret = "0boc5n9q1b2r9ol"
+    let dbAppKey = "hntpvw04h7gp9y3"
+    let dbAppSecret = "r12bup7ofnjpthb"
     let dbRoot = kDBRootDropbox
     var timer = NSTimer()
 
